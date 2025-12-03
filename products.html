@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jianxian Agricultural Products - Product Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32', // Main Color: Natural Green
+            secondary: '#8D6E63', // Accent Color: Wood Color
+            light: '#F9FAF9',   // Light Background
+            dark: '#334155',    // Dark Text
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto { content-visibility: auto; }
+      .product-hover { @apply transition-all duration-300 hover:shadow-md hover:-translate-y-1; }
+      .btn-primary { @apply bg-primary text-white px-4 py-2 rounded-md transition-colors hover:bg-primary/90; }
+      .btn-outline { @apply border border-primary text-primary px-4 py-2 rounded-md transition-colors hover:bg-primary/5; }
+      .category-active { @apply bg-primary text-white; }
+      .filter-active { @apply bg-primary/10 text-primary border-primary; }
+    }
+  </style>
+  
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .category-scroll { scrollbar-width: thin; }
+    .category-scroll::-webkit-scrollbar { height: 3px; }
+    .category-scroll::-webkit-scrollbar-thumb { @apply bg-primary/30 rounded-full; }
+    .product-img { transition: transform 0.3s ease; }
+    .product-card:hover .product-img { transform: scale(1.03); }
+    .cart-toast { animation: slideIn 2.5s ease forwards; }
+    @keyframes slideIn {
+      0% { transform: translateX(100%); }
+      10% { transform: translateX(0); }
+      90% { transform: translateX(0); }
+      100% { transform: translateX(100%); }
+    }
+    /* Filter Panel Animation */
+    .filter-panel { transition: max-height 0.3s ease, opacity 0.3s ease; }
+  </style>
+</head>
+
+<body class="bg-light text-dark">
+  <header class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2">
+        <i class="fa fa-leaf text-primary text-xl"></i>
+        <span class="text-lg font-bold">Jianxian Ag Products</span>
+      </a>
+      
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="index.html" class="text-dark hover:text-primary transition-colors">Homepage</a>
+        <a href="products.html" class="text-primary font-medium border-b-2 border-primary pb-1">Agricultural Products</a>
+        <a href="farm.html" class="text-dark hover:text-primary transition-colors">Planting Bases</a>
+        <a href="features.html" class="text-dark hover:text-primary transition-colors">Rural Characteristics</a>
+        <a href="testimonials.html" class="text-dark hover:text-primary transition-colors">Customer Testimonials</a>
+        <a href="contact.html" class="text-dark hover:text-primary transition-colors">Contact Us</a>
+      </nav>
+      
+      <div class="flex items-center gap-4">
+        <button class="text-dark hover:text-primary transition-colors hidden sm:block">
+          <i class="fa fa-search text-lg"></i>
+        </button>
+        <div class="relative">
+          <button id="cart-btn" class="text-dark hover:text-primary transition-colors">
+            <i class="fa fa-shopping-cart text-xl"></i>
+            <span id="cart-count" class="absolute -top-2 -right-2 bg-primary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">2</span>
+          </button>
+        </div>
+        <button class="text-dark hover:text-primary transition-colors hidden sm:block">
+          <i class="fa fa-user text-lg"></i>
+        </button>
+        <button id="menu-btn" class="md:hidden text-dark text-xl">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+      <div class="container mx-auto px-4 py-2 flex flex-col gap-3">
+        <a href="index.html" class="py-2 text-dark hover:text-primary transition-colors">Homepage</a>
+        <a href="products.html" class="py-2 text-primary font-medium">Agricultural Products</a>
+        <a href="farm.html" class="py-2 text-dark hover:text-primary transition-colors">Planting Bases</a>
+        <a href="features.html" class="py-2 text-dark hover:text-primary transition-colors">Rural Characteristics</a>
+        <a href="testimonials.html" class="py-2 text-dark hover:text-primary transition-colors">Customer Testimonials</a>
+        <a href="contact.html" class="py-2 text-dark hover:text-primary transition-colors">Contact Us</a>
+        <div class="flex items-center gap-4 py-2 border-t">
+          <button class="text-dark hover:text-primary transition-colors">
+            <i class="fa fa-search text-lg"></i>
+          </button>
+          <button class="text-dark hover:text-primary transition-colors">
+            <i class="fa fa-user text-lg"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="pt-24 pb-6 bg-white border-b">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 class="text-[clamp(1.5rem,3vw,2rem)] font-bold mb-2">Product Center</h1>
+          <p class="text-gray-600">Naturally Grown · Freshly Delivered · Quality Assurance</p>
+        </div>
+        <div class="flex items-center text-sm text-gray-600">
+          <a href="index.html" class="hover:text-primary transition-colors">Homepage</a>
+          <i class="fa fa-angle-right mx-2 text-xs"></i>
+          <span class="text-primary">Agricultural Products</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sticky top-14 bg-white py-4 shadow-sm z-40">
+    <div class="container mx-auto px-4">
+      <div class="category-scroll flex gap-2 overflow-x-auto pb-2 mb-4">
+        <button class="category-btn whitespace-nowrap px-4 py-2 rounded-md bg-primary text-white font-medium" data-category="all">All</button>
+        <button class="category-btn whitespace-nowrap px-4 py-2 rounded-md bg-gray-100 text-dark font-medium hover:bg-gray-200 transition-colors" data-category="grain">Grains & Cereals</button>
+        <button class="category-btn whitespace-nowrap px-4 py-2 rounded-md bg-gray-100 text-dark font-medium hover:bg-gray-200 transition-colors" data-category="vegetable">Fresh Produce</button>
+        <button class="category-btn whitespace-nowrap px-4 py-2 rounded-md bg-gray-100 text-dark font-medium hover:bg-gray-200 transition-colors" data-category="nut">Nuts & Dried Goods</button>
+        <button class="category-btn whitespace-nowrap px-4 py-2 rounded-md bg-gray-100 text-dark font-medium hover:bg-gray-200 transition-colors" data-category="organic">Organic Products</button>
+        <button class="category-btn whitespace-nowrap px-4 py-2 rounded-md bg-gray-100 text-dark font-medium hover:bg-gray-200 transition-colors" data-category="specialty">Local Specialties</button>
+        <button class="category-btn whitespace-nowrap px-4 py-2 rounded-md bg-gray-100 text-dark font-medium hover:bg-gray-200 transition-colors" data-category="gift">Special Gift Boxes</button>
+      </div>
+      
+      <div class="flex flex-wrap items-center gap-3 justify-between">
+        <div class="flex items-center gap-3 flex-wrap">
+          <span class="text-gray-600 text-sm">Sort:</span>
+          <select id="sort-select" class="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+            <option value="default">Default Sort</option>
+            <option value="sales">Sales Priority</option>
+            <option value="price-asc">Price Low to High</option>
+            <option value="price-desc">Price High to Low</option>
+            <option value="rating">Rating Priority</option>
+          </select>
+          
+          <div class="flex items-center gap-2">
+            <span class="text-gray-600 text-sm">Price:</span>
+            <select id="price-select" class="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+              <option value="all">All Prices</option>
+              <option value="0-50">¥0-50</option>
+              <option value="50-100">¥50-100</option>
+              <option value="100-200">¥100-200</option>
+              <option value="200+">¥200+</option>
+            </select>
+          </div>
+          
+          <div class="flex items-center gap-2">
+            <span class="text-gray-600 text-sm">Origin:</span>
+            <select id="origin-select" class="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+              <option value="all">All Origins</option>
+              <option value="northeast">Northeast</option>
+              <option value="shandong">Shandong</option>
+              <option value="yunnan">Yunnan</option>
+              <option value="shanxi">Shanxi</option>
+              <option value="xinjiang">Xinjiang</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+          <button id="filter-toggle" class="md:hidden flex items-center gap-1 text-gray-600 hover:text-primary transition-colors">
+            <i class="fa fa-filter"></i>
+            <span>Filter</span>
+          </button>
+          
+          <div class="flex border border-gray-300 rounded-md overflow-hidden">
+            <button id="grid-view" class="px-3 py-1.5 bg-primary text-white">
+              <i class="fa fa-th-large"></i>
+            </button>
+            <button id="list-view" class="px-3 py-1.5 bg-white text-gray-600 hover:bg-gray-100 transition-colors">
+              <i class="fa fa-list"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="mobile-filter-panel" class="filter-panel md:hidden max-h-0 overflow-hidden opacity-0 mt-3 border-t">
+        <div class="py-3">
+          <div class="mb-3">
+            <h4 class="text-sm font-medium mb-2">Price Range</h4>
+            <div class="flex flex-wrap gap-2">
+              <button class="price-tag px-3 py-1 rounded-md border border-gray-300 text-sm hover:bg-gray-100 transition-colors filter-active" data-price="all">All</button>
+              <button class="price-tag px-3 py-1 rounded-md border border-gray-300 text-sm hover:bg-gray-100 transition-colors" data-price="0-50">¥0-50</button>
+              <button class="price-tag px-3 py-1 rounded-md border border-gray-300 text-sm hover:bg-gray-100 transition-colors" data-price="50-100">¥50-100</button>
+              <button class="price-tag px-3 py-1 rounded-md border border-gray-300 text-sm hover:bg-gray-100 transition-colors" data-price="100-200">¥100-200</button>
+              <button class="price-tag px-3 py-1 rounded-md border border-gray-300 text-sm hover:bg-gray-100 transition-colors" data-price="200+">¥200+</button>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <h4 class="text-sm font-medium mb-2">Origin Selection</h4>
+            <div class="flex flex-wrap gap-2">
+              <button class="origin-tag px-3 py-1 rounded-md border border-gray-300 text-sm hover:bg-gray-100 transition-colors filter-active" data-origin="all">All</button>
+              <button class="origin-tag px-3 py-1 rounded-md border border-gray-300 text-sm hover:bg-gray-100 transition-colors" data-origin="northeast">Northeast</button>
+              <button class="origin-tag px-3 py-1 rounded-md border border-gray-300 text-sm hover:bg-gray-100 transition-colors" data-origin="shandong">Shandong</button>
+              <button class="origin-tag px-3 py-1 rounded-md border border-gray-300 text-sm hover:bg-gray-100 transition-colors" data-origin="yunnan">Yunnan</button>
+              <button class="origin-tag px-3 py-1 rounded-md border border-gray-300 text-sm hover:bg-gray-100 transition-colors" data-origin="shanxi">Shanxi</button>
+              <button class="origin-tag px-3 py-1 rounded-md border border-gray-300 text-sm hover:bg-gray-100 transition-colors" data-origin="xinjiang">Xinjiang</button>
+            </div>
+          </div>
+          
+          <button id="filter-confirm" class="w-full btn-primary text-sm">Confirm Filter</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-8">
+    <div class="container mx-auto px-4">
+      <div class="mb-6 text-sm text-gray-600">
+        <span id="filter-result">Found <strong class="text-primary">16</strong> products</span>
+      </div>
+      
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm product-hover" data-category="grain" data-price="68" data-origin="northeast" data-sales="126" data-rating="4.8">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/product01.jpg" alt="Wuchang Organic Rice" class="w-full h-full object-cover product-img">
+            <span class="absolute top-2 left-2 bg-primary/90 text-white text-xs px-2 py-1 rounded">Organic</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Wuchang Organic Rice</h3>
+            <div class="flex items-center text-yellow-400 text-sm mb-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+              <span class="text-gray-500 ml-1">4.8</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Black soil cultivation, no pesticides or fertilizers, sweet and soft sticky texture</p>
+            <div class="flex justify-between items-center">
+              <span class="text-primary font-bold">¥68.00</span>
+              <button class="add-to-cart btn-primary text-sm flex items-center gap-1">
+                <i class="fa fa-shopping-cart"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm product-hover" data-category="vegetable" data-price="78" data-origin="yunnan" data-sales="98" data-rating="4.2">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/product02.jpg" alt="Yunnan Alpine Apples" class="w-full h-full object-cover product-img">
+            <span class="absolute top-2 left-2 bg-secondary/90 text-white text-xs px-2 py-1 rounded">Seasonal</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Yunnan Alpine Apples</h3>
+            <div class="flex items-center text-yellow-400 text-sm mb-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-o"></i>
+              <span class="text-gray-500 ml-1">4.2</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Large temperature difference, naturally ripened, crisp and juicy</p>
+            <div class="flex justify-between items-center">
+              <span class="text-primary font-bold">¥78.00</span>
+              <button class="add-to-cart btn-primary text-sm flex items-center gap-1">
+                <i class="fa fa-shopping-cart"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm product-hover" data-category="nut" data-price="56" data-origin="shanxi" data-sales="215" data-rating="5.0">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/product03.jpg" alt="Taihang Mountain Walnut" class="w-full h-full object-cover product-img">
+            <span class="absolute top-2 left-2 bg-primary/90 text-white text-xs px-2 py-1 rounded">Bestseller</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Taihang Mountain Walnut</h3>
+            <div class="flex items-center text-yellow-400 text-sm mb-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <span class="text-gray-500 ml-1">5.0</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Hand-picked, naturally dried, thin shell, easy to peel</p>
+            <div class="flex justify-between items-center">
+              <span class="text-primary font-bold">¥56.00</span>
+              <button class="add-to-cart btn-primary text-sm flex items-center gap-1">
+                <i class="fa fa-shopping-cart"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm product-hover" data-category="organic" data-price="98" data-origin="shandong" data-sales="76" data-rating="4.5">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/product04.jpg" alt="Organic Vegetable Gift Box" class="w-full h-full object-cover product-img">
+            <span class="absolute top-2 left-2 bg-primary/90 text-white text-xs px-2 py-1 rounded">Gift Box</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Organic Vegetable Gift Box</h3>
+            <div class="flex items-center text-yellow-400 text-sm mb-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+              <span class="text-gray-500 ml-1">4.5</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">6 kinds of seasonal vegetables, no pesticide residue, cold chain delivery</p>
+            <div class="flex justify-between items-center">
+              <span class="text-primary font-bold">¥98.00</span>
+              <button class="add-to-cart btn-primary text-sm flex items-center gap-1">
+                <i class="fa fa-shopping-cart"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm product-hover" data-category="grain" data-price="45" data-origin="shanxi" data-sales="107" data-rating="4.1">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/product05.jpg" alt="Shanxi Qin Zhou Huang Millet" class="w-full h-full object-cover product-img">
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Shanxi Qin Zhou Huang Millet</h3>
+            <div class="flex items-center text-yellow-400 text-sm mb-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-o"></i>
+              <span class="text-gray-500 ml-1">4.1</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Golden color, plump grains, fragrant and smooth taste</p>
+            <div class="flex justify-between items-center">
+              <span class="text-primary font-bold">¥45.00</span>
+              <button class="add-to-cart btn-primary text-sm flex items-center gap-1">
+                <i class="fa fa-shopping-cart"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm product-hover" data-category="vegetable" data-price="88" data-origin="yunnan" data-sales="89" data-rating="4.9">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/product06.jpg" alt="Yunnan Alpine Blueberry" class="w-full h-full object-cover product-img">
+            <span class="absolute top-2 left-2 bg-primary/90 text-white text-xs px-2 py-1 rounded">Organic</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Yunnan Alpine Blueberry</h3>
+            <div class="flex items-center text-yellow-400 text-sm mb-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <span class="text-gray-500 ml-1">4.9</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Naturally ripened, sweet and sour, rich in anthocyanins</p>
+            <div class="flex justify-between items-center">
+              <span class="text-primary font-bold">¥88.00</span>
+              <button class="add-to-cart btn-primary text-sm flex items-center gap-1">
+                <i class="fa fa-shopping-cart"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm product-hover" data-category="specialty" data-price="38" data-origin="xinjiang" data-sales="156" data-rating="4.6">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/product07.jpg" alt="Xinjiang Seedless White Raisins" class="w-full h-full object-cover product-img">
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Xinjiang Seedless White Raisins</h3>
+            <div class="flex items-center text-yellow-400 text-sm mb-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+              <span class="text-gray-500 ml-1">4.6</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Naturally dried, no additives, sweet and delicious</p>
+            <div class="flex justify-between items-center">
+              <span class="text-primary font-bold">¥38.00</span>
+              <button class="add-to-cart btn-primary text-sm flex items-center gap-1">
+                <i class="fa fa-shopping-cart"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm product-hover" data-category="gift" data-price="128" data-origin="all" data-sales="63" data-rating="4.3">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/product08.jpg" alt="Mixed Grains Gift Box" class="w-full h-full object-cover product-img">
+            <span class="absolute top-2 left-2 bg-secondary/90 text-white text-xs px-2 py-1 rounded">Gift Box</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Mixed Grains Gift Box</h3>
+            <div class="flex items-center text-yellow-400 text-sm mb-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-o"></i>
+              <span class="text-gray-500 ml-1">4.3</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">8 kinds of mixed grains combination, balanced nutrition, great for gifting</p>
+            <div class="flex justify-between items-center">
+              <span class="text-primary font-bold">¥128.00</span>
+              <button class="add-to-cart btn-primary text-sm flex items-center gap-1">
+                <i class="fa fa-shopping-cart"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm product-hover" data-category="organic" data-price="68" data-origin="northeast" data-sales="92" data-rating="4.7">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/product09.png" alt="Northeast Organic Black Beans" class="w-full h-full object-cover product-img">
+            <span class="absolute top-2 left-2 bg-primary/90 text-white text-xs px-2 py-1 rounded">Organic</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Northeast Organic Black Beans</h3>
+            <div class="flex items-center text-yellow-400 text-sm mb-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+              <span class="text-gray-500 ml-1">4.7</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Black soil cultivation, rich in anthocyanins, no pesticide residue</p>
+            <div class="flex justify-between items-center">
+              <span class="text-primary font-bold">¥68.00</span>
+              <button class="add-to-cart btn-primary text-sm flex items-center gap-1">
+                <i class="fa fa-shopping-cart"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm product-hover" data-category="specialty" data-price="58" data-origin="ningxia" data-sales="143" data-rating="4.8">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/product10.jpg" alt="Ningxia Zhongning Goji Berries" class="w-full h-full object-cover product-img">
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Ningxia Zhongning Goji Berries</h3>
+            <div class="flex items-center text-yellow-400 text-sm mb-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+              <span class="text-gray-500 ml-1">4.8</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Sufficient sunshine, plump flesh, rich in goji berry polysaccharides</p>
+            <div class="flex justify-between items-center">
+              <span class="text-primary font-bold">¥58.00</span>
+              <button class="add-to-cart btn-primary text-sm flex items-center gap-1">
+                <i class="fa fa-shopping-cart"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm product-hover" data-category="nut" data-price="72" data-origin="yunnan" data-sales="87" data-rating="4.2">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/product11.jpg" alt="Yunnan Organic Cashews" class="w-full h-full object-cover product-img">
+            <span class="absolute top-2 left-2 bg-primary/90 text-white text-xs px-2 py-1 rounded">Organic</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Yunnan Organic Cashews</h3>
+            <div class="flex items-center text-yellow-400 text-sm mb-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-o"></i>
+              <span class="text-gray-500 ml-1">4.2</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Original ecological cultivation, no salt, no additives, crispy taste</p>
+            <div class="flex justify-between items-center">
+              <span class="text-primary font-bold">¥72.00</span>
+              <button class="add-to-cart btn-primary text-sm flex items-center gap-1">
+                <i class="fa fa-shopping-cart"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm product-hover" data-category="gift" data-price="168" data-origin="all" data-sales="59" data-rating="4.7">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/product12.jpg" alt="Selected Nuts Gift Box" class="w-full h-full object-cover product-img">
+            <span class="absolute top-2 left-2 bg-secondary/90 text-white text-xs px-2 py-1 rounded">Bestseller</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Selected Nuts Gift Box</h3>
+            <div class="flex items-center text-yellow-400 text-sm mb-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+              <span class="text-gray-500 ml-1">4.7</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-3 line-clamp-2">6 kinds of nut combination, individually packaged, great for gifting</p>
+            <div class="flex justify-between items-center">
+              <span class="text-primary font-bold">¥168.00</span>
+              <button class="add-to-cart btn-primary text-sm flex items-center gap-1">
+                <i class="fa fa-shopping-cart"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="product-list" class="hidden space-y-4">
+        </div>
+
+      <div class="flex justify-center mt-10">
+        <nav class="flex items-center gap-1">
+          <a href="#" class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 hover:border-primary hover:text-primary transition-colors">
+            <i class="fa fa-angle-left"></i>
+          </a>
+          <a href="#" class="w-9 h-9 flex items-center justify-center rounded-md bg-primary text-white">1</a>
+          <a href="#" class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 hover:border-primary hover:text-primary transition-colors">2</a>
+          <a href="#" class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 hover:border-primary hover:text-primary transition-colors">3</a>
+          <span class="w-9 h-9 flex items-center justify-center text-gray-500">...</span>
+          <a href="#" class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 hover:border-primary hover:text-primary transition-colors">5</a>
+          <a href="#" class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 hover:border-primary hover:text-primary transition-colors">
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10 bg-white border-t">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <div class="p-5">
+          <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto mb-3">
+            <i class="fa fa-leaf text-xl"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">Organic Cultivation</h3>
+          <p class="text-gray-600 text-sm">Follow natural laws, no pesticides or fertilizers, preserve natural nutrition</p>
+        </div>
+        <div class="p-5">
+          <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto mb-3">
+            <i class="fa fa-truck text-xl"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">Fresh Direct Delivery</h3>
+          <p class="text-gray-600 text-sm">Direct supply from origin, reduce intermediate links, cold chain preservation delivery</p>
+        </div>
+        <div class="p-5">
+          <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto mb-3">
+            <i class="fa fa-certificate text-xl"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">Quality Assurance</h3>
+          <p class="text-gray-600 text-sm">Strict quality inspection, traceable, worry-free consumption</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-dark text-white py-8">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center gap-2 mb-4 md:mb-0">
+          <i class="fa fa-leaf text-primary text-xl"></i>
+          <span class="text-lg font-bold">Jianxian Ag Products</span>
+        </div>
+        <div class="text-center md:text-right text-gray-400 text-sm">
+          <p>© 2025 Jianxian Ag Products. All Rights Reserved.</p>
+          <p class="mt-1">Rural Revitalization · High-Quality Agricultural Product Direct Supply Platform</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="cart-toast" class="fixed top-20 right-4 bg-green-600 text-white px-4 py-2 rounded-md shadow-lg flex items-center gap-2 transform translate-x-full z-50">
+    <i class="fa fa-check-circle"></i>
+    <span>Product added to cart</span>
+  </div>
+
+  <button id="back-to-top" class="fixed bottom-6 right-6 bg-primary text-white w-10 h-10 rounded-full shadow-md flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-primary/90">
+    <i class="fa fa-angle-up text-lg"></i>
+  </button>
+
+  <script>
+    // 1. Mobile Menu Toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const icon = menuBtn.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+
+    // 2. Mobile Filter Panel Toggle
+    const filterToggle = document.getElementById('filter-toggle');
+    const mobileFilterPanel = document.getElementById('mobile-filter-panel');
+    filterToggle?.addEventListener('click', () => {
+      if (mobileFilterPanel.style.maxHeight === '1000px') {
+        mobileFilterPanel.style.maxHeight = '0';
+        mobileFilterPanel.style.opacity = '0';
+      } else {
+        mobileFilterPanel.style.maxHeight = '1000px';
+        mobileFilterPanel.style.opacity = '1';
+      }
+    });
+
+    // 3. Category Button Toggle and Filtering
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const productCards = document.querySelectorAll('.product-card');
+    const sortSelect = document.getElementById('sort-select');
+    const priceSelect = document.getElementById('price-select');
+    const originSelect = document.getElementById('origin-select');
+    const filterResult = document.getElementById('filter-result');
+    const priceTags = document.querySelectorAll('.price-tag');
+    const originTags = document.querySelectorAll('.origin-tag');
+
+    // Filter state storage
+    let filterState = {
+      category: 'all',
+      price: 'all',
+      origin: 'all',
+      sort: 'default'
+    };
+
+    // Initialize filter tag events (Mobile)
+    priceTags.forEach(tag => {
+      tag.addEventListener('click', () => {
+        priceTags.forEach(t => t.classList.remove('filter-active'));
+        tag.classList.add('filter-active');
+        filterState.price = tag.dataset.price;
+        // Sync update dropdown
+        priceSelect.value = tag.dataset.price;
+        applyFilters();
+      });
+    });
+
+    originTags.forEach(tag => {
+      tag.addEventListener('click', () => {
+        originTags.forEach(t => t.classList.remove('filter-active'));
+        tag.classList.add('filter-active');
+        filterState.origin = tag.dataset.origin;
+        // Sync update dropdown
+        originSelect.value = tag.dataset.origin;
+        applyFilters();
+      });
+    });
+
+    // Category button event
+    categoryBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update button style
+        categoryBtns.forEach(b => {
+          b.classList.remove('category-active');
+          b.classList.add('bg-gray-100', 'text-dark');
+        });
+        btn.classList.add('category-active');
+        btn.classList.remove('bg-gray-100', 'text-dark');
+        
+        // Update filter state
+        filterState.category = btn.dataset.category;
+        applyFilters();
+      });
+    });
+
+    // Dropdown filter events
+    sortSelect.addEventListener('change', () => {
+      filterState.sort = sortSelect.value;
+      applyFilters();
+    });
+
+    priceSelect.addEventListener('change', () => {
+      filterState.price = priceSelect.value;
+      // Sync update mobile tags
+      priceTags.forEach(tag => {
+        if (tag.dataset.price === priceSelect.value) {
+          priceTags.forEach(t => t.classList.remove('filter-active'));
+          tag.classList.add('filter-active');
+        }
+      });
+      applyFilters();
+    });
+
+    originSelect.addEventListener('change', () => {
+      filterState.origin = originSelect.value;
+      // Sync update mobile tags
+      originTags.forEach(tag => {
+        if (tag.dataset.origin === originSelect.value) {
+          originTags.forEach(t => t.classList.remove('filter-active'));
+          tag.classList.add('filter-active');
+        }
+      });
+      applyFilters();
+    });
+
+    // Apply filter logic
+    function applyFilters() {
+      let filteredProducts = [...productCards];
+      
+      // 1. Category filter
+      if (filterState.category !== 'all') {
+        filteredProducts = filteredProducts.filter(card => 
+          card.dataset.category === filterState.category
+        );
+      }
+
+      // 2. Price filter
+      if (filterState.price !== 'all') {
+        const [min, max] = filterState.price.split('-');
+        filteredProducts = filteredProducts.filter(card => {
+          const price = parseInt(card.dataset.price);
+          if (filterState.price === '200+') {
+            return price >= 200;
+          }
+          return price >= parseInt(min) && price <= parseInt(max);
+        });
+      }
+
+      // 3. Origin filter
+      if (filterState.origin !== 'all') {
+        filteredProducts = filteredProducts.filter(card => 
+          card.dataset.origin === filterState.origin
+        );
+      }
+
+      // 4. Sorting
+      if (filterState.sort === 'sales') {
+        filteredProducts.sort((a, b) => b.dataset.sales - a.dataset.sales);
+      } else if (filterState.sort === 'price-asc') {
+        filteredProducts.sort((a, b) => a.dataset.price - b.dataset.price);
+      } else if (filterState.sort === 'price-desc') {
+        filteredProducts.sort((a, b) => b.dataset.price - a.dataset.price);
+      } else if (filterState.sort === 'rating') {
+        filteredProducts.sort((a, b) => b.dataset.rating - a.dataset.rating);
+      }
+
+      // Update product display
+      const productGrid = document.getElementById('product-grid');
+      productGrid.innerHTML = '';
+      filteredProducts.forEach(card => {
+        productGrid.appendChild(card);
+      });
+
+      // Update filter result display
+      filterResult.innerHTML = `Found <strong class="text-primary">${filteredProducts.length}</strong> products`;
+    }
+
+    // 4. View Toggle (Grid/List)
+    const gridView = document.getElementById('grid-view');
+    const listView = document.getElementById('list-view');
+    const productList = document.getElementById('product-list');
+    const productGrid = document.getElementById('product-grid');
+
+    gridView.addEventListener('click', () => {
+      gridView.classList.add('bg-primary', 'text-white');
+      gridView.classList.remove('bg-white', 'text-gray-600');
+      listView.classList.remove('bg-primary', 'text-white');
+      listView.classList.add('bg-white', 'text-gray-600');
+      
+      productGrid.classList.remove('hidden');
+      productList.classList.add('hidden');
+    });
+
+    listView.addEventListener('click', () => {
+      listView.classList.add('bg-primary', 'text-white');
+      listView.classList.remove('bg-white', 'text-gray-600');
+      gridView.classList.remove('bg-primary', 'text-white');
+      gridView.classList.add('bg-white', 'text-gray-600');
+      
+      // Generate List View
+      productList.innerHTML = '';
+      const visibleCards = document.querySelectorAll('#product-grid .product-card');
+      
+      visibleCards.forEach(card => {
+        const listItem = document.createElement('div');
+        listItem.className = 'bg-white rounded-lg overflow-hidden shadow-sm p-4 flex flex-col sm:flex-row gap-4 product-hover';
+        
+        // Clone Image
+        const imgContainer = card.querySelector('.relative.h-48');
+        const listImgContainer = imgContainer.cloneNode(true);
+        listImgContainer.className = 'relative w-full sm:w-40 h-32';
+        
+        // Clone Content
+        const content = card.querySelector('.p-4').cloneNode(true);
+        content.className = 'flex-1';
+        
+        // Adjust button style
+        const addToCartBtn = content.querySelector('.add-to-cart');
+        addToCartBtn.className = 'btn-primary text-sm flex items-center gap-1 mt-2 self-start';
+        
+        listItem.appendChild(listImgContainer);
+        listItem.appendChild(content);
+        productList.appendChild(listItem);
+      });
+      
+      productGrid.classList.add('hidden');
+      productList.classList.remove('hidden');
+      
+      // Re-bind add to cart event for list view
+      bindAddToCartEvents();
+    });
+
+    // 5. Add to Cart Functionality
+    const cartCount = document.getElementById('cart-count');
+    const cartToast = document.getElementById('cart-toast');
+    let cartNum = parseInt(cartCount.textContent);
+
+    function bindAddToCartEvents() {
+      const addToCartBtns = document.querySelectorAll('.add-to-cart');
+      addToCartBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update cart count
+          cartNum++;
+          cartCount.textContent = cartNum;
+          
+          // Show notification
+          cartToast.classList.add('cart-toast');
+          setTimeout(() => {
+            cartToast.classList.remove('cart-toast');
+          }, 2500);
+        });
+      });
+    }
+
+    // Initial binding
+    bindAddToCartEvents();
+
+    // 6. Back to Top
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.remove('opacity-0', 'invisible');
+        backToTop.classList.add('opacity-100', 'visible');
+      } else {
+        backToTop.classList.add('opacity-0', 'invisible');
+        backToTop.classList.remove('opacity-100', 'visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Initialize filter
+    applyFilters();
+  </script>
+</body>
+</html>

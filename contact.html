@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jianxian Agricultural Products - Contact Us</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32', // Natural Green (Consistent with Homepage)
+            secondary: '#8D6E63', // Wood Color
+            light: '#F9FAF9',
+            dark: '#2D3748',
+            gray: {
+              100: '#F3F4F6',
+              200: '#E5E7EB',
+              300: '#D1D5DB',
+              400: '#9CA3AF',
+              500: '#6B7280',
+              600: '#4B5563',
+              700: '#374151',
+              800: '#1F2937',
+              900: '#111827',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
+            'medium': '0 8px 30px rgba(0, 0, 0, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto { content-visibility: auto; }
+      .section-padding { @apply py-16 md:py-24 lg:py-32; }
+      .section-inner { @apply container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl; }
+      .text-balance { text-wrap: balance; }
+      .btn-primary { @apply bg-primary text-white px-6 py-3 rounded-lg transition-all duration-300 hover:bg-primary/90 hover:shadow-medium active:scale-95; }
+      .card { @apply bg-white rounded-xl shadow-soft p-6 md:p-8 transition-all duration-300 hover:shadow-medium; }
+      .form-input { @apply w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all; }
+    }
+  </style>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: #F9FAF9;
+      color: #2D3748;
+      line-height: 1.6;
+    }
+    
+    /* Navbar (Exactly consistent with Homepage) */
+    .header-scroll {
+      transition: all 0.3s ease;
+    }
+    .header-scroll.scrolled {
+      background-color: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      padding: 0.5rem 0;
+    }
+    .nav-link {
+      position: relative;
+      padding: 0.5rem 0;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #2E7D32;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+    
+    /* Page Title Area */
+    .page-header {
+      text-align: center;
+      margin-bottom: 6rem;
+    }
+    .page-header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: #2D3748;
+      margin-bottom: 1.5rem;
+      line-height: 1.3;
+    }
+    .page-header p {
+      font-size: 1.1rem;
+      color: #6B7280;
+      max-width: 600px;
+      margin: 0 auto;
+      text-balance: true;
+    }
+    
+    /* Core Content Layout */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      margin-bottom: 6rem;
+    }
+    @media (min-width: 1024px) {
+      .contact-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    /* Contact Form Style */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 500;
+      color: #374151;
+    }
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+    .form-submit {
+      margin-top: 1rem;
+    }
+    
+    /* Contact Info Style */
+    .contact-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+    }
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+    }
+    .contact-info-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #F3F4F6;
+      color: #2E7D32;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-info-content h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2D3748;
+      margin-bottom: 0.3rem;
+    }
+    .contact-info-content p {
+      color: #6B7280;
+      font-size: 0.95rem;
+    }
+    .contact-info-content a {
+      color: #2E7D32;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .contact-info-content a:hover {
+      color: #1B5E20;
+      text-decoration: underline;
+    }
+    
+    /* Map Container Style */
+    .map-container {
+      width: 100%;
+      height: 300px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+    .map-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* FAQ Style */
+    .faq-section {
+      margin-bottom: 6rem;
+    }
+    .faq-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .faq-header h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+      color: #2D3748;
+      margin-bottom: 1rem;
+    }
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .faq-item {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+    .faq-question {
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .faq-question:hover {
+      background-color: #F9FAF9;
+    }
+    .faq-question h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #2D3748;
+    }
+    .faq-icon {
+      color: #2E7D32;
+      transition: transform 0.3s ease;
+    }
+    .faq-answer {
+      padding: 0 1.5rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      color: #6B7280;
+    }
+    .faq-answer.active {
+      padding: 0 1.5rem 1.5rem;
+      max-height: 500px;
+    }
+    .faq-icon.active {
+      transform: rotate(180deg);
+    }
+    
+    /* Business Hours Style */
+    .hours-section {
+      max-width: 800px;
+      margin: 0 auto 6rem;
+    }
+    .hours-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .hours-header h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+      color: #2D3748;
+      margin-bottom: 1rem;
+    }
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+    .hours-table th,
+    .hours-table td {
+      padding: 1.2rem 1.5rem;
+      text-align: left;
+      border-bottom: 1px solid #F3F4F6;
+    }
+    .hours-table th {
+      background-color: #F9FAF9;
+      font-weight: 600;
+      color: #2D3748;
+    }
+    .hours-table td {
+      color: #6B7280;
+    }
+    .hours-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* Footer (Consistent with Previous Pages) */
+    .footer {
+      background-color: #2D3748;
+      color: #F3F4F6;
+      padding: 4rem 0 2rem;
+    }
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .footer-logo i {
+      font-size: 1.8rem;
+      color: #4CAF50;
+    }
+    .footer-logo span {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .footer-copyright {
+      color: #9CA3AF;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+    
+    /* Back to Top (Consistent with Previous Pages) */
+    #back-to-top {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #2E7D32;
+      color: white;
+      box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    #back-to-top:hover {
+      background-color: #1B5E20;
+      transform: scale(1.1);
+    }
+    
+    /* Fade-In Animation (Subtle) */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 0.8s ease forwards;
+      opacity: 0;
+    }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+  </style>
+</head>
+
+<body class="bg-light text-dark">
+  <header class="fixed top-0 left-0 right-0 bg-white/92 backdrop-blur-sm z-50 header-scroll py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2">
+        <i class="fa fa-leaf text-primary text-2xl"></i>
+        <span class="text-xl font-bold text-dark">Jianxian Ag Products</span>
+      </a>
+      
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-dark hover:text-primary transition-colors nav-link">Homepage</a>
+        <a href="products.html" class="text-dark hover:text-primary transition-colors nav-link">Agricultural Products</a>
+        <a href="farm.html" class="text-dark hover:text-primary transition-colors nav-link">Planting Bases</a>
+        <a href="features.html" class="text-dark hover:text-primary transition-colors nav-link">Rural Characteristics</a>
+        <a href="comment.html" class="text-dark hover:text-primary transition-colors nav-link">Customer Testimonials</a>
+        <a href="contact.html" class="text-primary font-medium nav-link active">Contact Us</a>
+      </nav>
+      
+      <div class="flex items-center gap-5">
+        <button class="text-dark hover:text-primary transition-colors hidden sm:flex items-center gap-1">
+          <i class="fa fa-search text-lg"></i>
+          <span class="text-sm">Search</span>
+        </button>
+        <div class="relative">
+          <button id="cart-btn" class="text-dark hover:text-primary transition-colors flex items-center gap-1">
+            <i class="fa fa-shopping-cart text-xl"></i>
+            <span id="cart-count" class="absolute -top-3 -right-3 bg-primary text-white text-xs w-6 h-6 flex items-center justify-center rounded-full shadow-md">2</span>
+          </button>
+        </div>
+        <button class="text-dark hover:text-primary transition-colors hidden sm:flex items-center gap-1">
+          <i class="fa fa-user text-lg"></i>
+          <span class="text-sm">Log In</span>
+        </button>
+        <button id="menu-btn" class="md:hidden text-dark text-2xl">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100 shadow-md mt-4">
+      <div class="container mx-auto px-4 py-3 flex flex-col gap-3">
+        <a href="index.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Homepage</a>
+        <a href="products.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Agricultural Products</a>
+        <a href="farm.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Planting Bases</a>
+        <a href="features.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Rural Characteristics</a>
+        <a href="comment.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Customer Testimonials</a>
+        <a href="contact.html" class="py-3 px-4 text-primary font-medium bg-primary/5 rounded-xl">Contact Us</a>
+        <div class="flex items-center gap-4 py-3 border-t border-gray-100">
+          <button class="flex-1 py-2 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50 flex items-center justify-center gap-2">
+            <i class="fa fa-search"></i>
+            <span>Search</span>
+          </button>
+          <button class="flex-1 py-2 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50 flex items-center justify-center gap-2">
+            <i class="fa fa-user"></i>
+            <span>Log In</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="section-padding pt-24">
+    <div class="section-inner">
+      <div class="page-header fade-in">
+        <h1>Contact Us · Communication Without Borders</h1>
+        <p>Whether you want to inquire about products, book an experience, or have any suggestions, we are always here to listen and provide you with the most thoughtful service</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="card fade-in delay-100">
+          <h2 class="text-2xl font-bold text-dark mb-4">Send a Message</h2>
+          <p class="text-gray-600 mb-6">Fill out the form below, and we will contact you within 24 hours</p>
+          <form id="contact-form">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" class="form-input" placeholder="Please enter your name" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Contact Phone</label>
+              <input type="tel" id="phone" class="form-input" placeholder="Please enter your contact phone number" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email (Optional)</label>
+              <input type="email" id="email" class="form-input" placeholder="Please enter your email">
+            </div>
+            <div class="form-group">
+              <label for="subject">Inquiry Topic</label>
+              <select id="subject" class="form-input" required>
+                <option value="">Please select the inquiry topic</option>
+                <option value="product">Product Inquiry</option>
+                <option value="experience">Experience Booking</option>
+                <option value="group">Team Building/Group Customization</option>
+                <option value="cooperation">Business Cooperation</option>
+                <option value="suggestion">Suggestions & Feedback</option>
+                <option value="other">Other Questions</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message Content</label>
+              <textarea id="message" class="form-input" placeholder="Please describe your needs or questions in detail" required></textarea>
+            </div>
+            <div class="form-submit">
+              <button type="submit" class="btn-primary w-full md:w-auto">Send Message</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="fade-in delay-200">
+          <div class="card mb-3">
+            <h2 class="text-2xl font-bold text-dark mb-4">Contact Information</h2>
+            <p class="text-gray-600 mb-6">Multiple contact methods for you to find us anytime</p>
+            <div class="contact-info-list">
+              <div class="contact-info-item">
+                <div class="contact-info-icon">
+                  <i class="fa fa-phone"></i>
+                </div>
+                <div class="contact-info-content">
+                  <h3>Phone Consultation</h3>
+                  <p>Business Hours: 9:00 - 18:00</p>
+                  <p><a href="tel:4008889999">400-888-9999</a></p>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <div class="contact-info-icon">
+                  <i class="fa fa-envelope"></i>
+                </div>
+                <div class="contact-info-content">
+                  <h3>Email</h3>
+                  <p>Response within 24 hours</p>
+                  <p><a href="mailto:service@jianxiannongpin.com">service@jianxiannongpin.com</a></p>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <div class="contact-info-icon">
+                  <i class="fa fa-weixin"></i>
+                </div>
+                <div class="contact-info-content">
+                  <h3>WeChat Customer Service</h3>
+                  <p>Scan QR code to add customer service</p>
+                  <p><a href="#">jianxiannongpin-kf</a></p>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <div class="contact-info-icon">
+                  <i class="fa fa-map-marker"></i>
+                </div>
+                <div class="contact-info-content">
+                  <h3>Office Address</h3>
+                  <p>Jianxian Ag Products Headquarters, Jianguo Road No. 88, Chaoyang District, Beijing</p>
+                  <p>Rural Experience Base: Next to Gubei Water Town, Miyun District, Beijing</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="text-xl font-bold text-dark mb-4">Geographical Location</h3>
+            <div class="map-container">
+              <img src="images/contact01.jpg" alt="Jianxian Ag Products Geographical Location Map" class="w-full h-full object-cover">
+            </div>
+            <p class="text-gray-600 text-center text-sm">
+              Click map to view detailed navigation | Free parking supported at Rural Experience Base
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-section fade-in">
+        <div class="faq-header">
+          <h2>Frequently Asked Questions</h2>
+          <p>Find answers to common questions you may care about; if you have other questions, feel free to contact us</p>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-question">
+              <h3>How are agricultural products delivered? What areas are covered by delivery?</h3>
+              <i class="fa fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+              <p>We have strategic partnerships with SF Express and JD Logistics. All agricultural products are delivered using cold chain preservation to ensure fresh arrival. Delivery covers most provinces and cities nationwide (excluding remote areas like Xinjiang, Tibet, Qinghai, etc.). Delivery usually takes 24-48 hours after placing the order, or 3-5 days for remote areas. Orders over ¥200 qualify for free delivery; otherwise, a ¥15 delivery fee is charged.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h3>How far in advance do I need to book the rural experience? What is the maximum number of people?</h3>
+              <i class="fa fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+              <p>We recommend booking the rural experience 3-7 days in advance, and 15 days in advance for weekends and holidays to avoid full capacity. There is no minimum number of people for individual and family experiences (1 person can book). Group team building (10+ people) requires contacting customer service in advance for a customized plan, with a maximum capacity of 200 people at once. Upon successful booking, you will receive a confirmation text message with the detailed address, transportation routes, and important notes.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h3>Can agricultural products be returned or exchanged? What is the return and exchange policy?</h3>
+              <i class="fa fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+              <p>We commit to unconditional returns or exchanges for agricultural products with quality issues. If you find quality issues such as spoilage, deterioration, or damage within 24 hours of receiving the goods, please take photos and contact customer service. We will resend or refund your money free of charge. For non-quality issues (such as personal taste preference, ordering error, etc.), returns are supported within 7 days, provided the product is unopened and does not affect secondary sales. Return shipping costs are borne by the customer.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h3>What activities can be customized for group team building? Is catering and accommodation provided?</h3>
+              <i class="fa fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+              <p>Group team building activities can be customized based on your needs, including farming experience, fruit/vegetable picking, outdoor BBQ, rural sports games, and folk handicraft classes. We provide a one-stop service, including catering (farm-to-table dishes, self-service BBQ, etc.) and accommodation (rural homestays, characteristic log cabins, etc.), which can be flexibly matched according to team size and budget. We recommend contacting customer service to discuss the customized plan 15 days in advance. Our investment manager will provide a detailed quote and itinerary.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h3>How can I become an agent or partner of Jianxian Agricultural Products?</h3>
+              <i class="fa fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+              <p>We welcome capable individuals or companies with resources to become our agents or partners. Cooperation methods include product agency, channel cooperation, and rural experience base franchising. If you are interested in cooperation, please submit your application through the contact form, or call our business cooperation hotline directly: 400-888-9999 ext. 8888. Our investment manager will contact you within 3 business days to discuss cooperation details.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hours-section fade-in">
+        <div class="hours-header">
+          <h2>Business Hours</h2>
+          <p>Understand our working hours to help you arrange your consultation and experience time</p>
+        </div>
+        <table class="hours-table">
+          <thead>
+            <tr>
+              <th>Service Item</th>
+              <th>Weekdays</th>
+              <th>Weekends</th>
+              <th>Holidays</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Customer Service (Phone/WeChat)</td>
+              <td>9:00 - 18:00</td>
+              <td>9:00 - 19:00</td>
+              <td>9:00 - 19:00</td>
+            </tr>
+            <tr>
+              <td>Agricultural Product Order Processing</td>
+              <td>9:00 - 17:30</td>
+              <td>9:00 - 17:30</td>
+              <td>10:00 - 17:00</td>
+            </tr>
+            <tr>
+              <td>Rural Experience Base Open</td>
+              <td>9:00 - 17:00</td>
+              <td>9:00 - 18:00</td>
+              <td>9:00 - 18:00</td>
+            </tr>
+            <tr>
+              <td>Office Address Reception</td>
+              <td>9:30 - 17:00 (By Appointment)</td>
+              <td>No Reception</td>
+              <td>No Reception</td>
+            </tr>
+            <tr>
+              <td>Logistics Delivery Time</td>
+              <td>10:00 - 18:00</td>
+              <td>10:00 - 18:00</td>
+              <td>10:00 - 16:00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card text-center fade-in">
+        <h2 class="text-2xl font-bold text-dark mb-3">Still Have Other Questions?</h2>
+        <p class="text-gray-600 mb-4 max-w-2xl mx-auto">
+          Whether you want to know more about our products or need customized services, our team will provide you with professional answers and support
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="tel:4008889999" class="btn-primary inline-block">Call Now</a>
+          <a href="#contact-form" class="btn-primary inline-block bg-secondary hover:bg-secondary/90">Online Inquiry</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container mx-auto px-4">
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <i class="fa fa-leaf"></i>
+          <span>Jianxian Ag Products</span>
+        </div>
+        <p class="text-gray-400 max-w-md">
+          Focusing on original ecological agricultural products and rural experiences, bringing nature into life and revitalizing the countryside.
+        </p>
+        <div class="footer-copyright">
+          © 2025 Jianxian Ag Products. All Rights Reserved.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full shadow-md flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-primary/90 z-40">
+    <i class="fa fa-angle-up text-xl"></i>
+  </button>
+
+  <script>
+    // 1. Mobile Menu Toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const icon = menuBtn.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+
+    // 2. Back to Top
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTop.classList.remove('opacity-0', 'invisible');
+        backToTop.classList.add('opacity-100', 'visible');
+      } else {
+        backToTop.classList.add('opacity-0', 'invisible');
+        backToTop.classList.remove('opacity-100', 'visible');
+      }
+      
+      // Navbar scroll effect
+      const header = document.querySelector('.header-scroll');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 3. FAQ Collapse Functionality
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
+      question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        const icon = question.querySelector('.faq-icon');
+        
+        // Toggle state of the current FAQ
+        answer.classList.toggle('active');
+        icon.classList.toggle('active');
+        
+        // Close other expanded FAQs
+        faqQuestions.forEach(otherQuestion => {
+          if (otherQuestion !== question) {
+            const otherAnswer = otherQuestion.nextElementSibling;
+            const otherIcon = otherQuestion.querySelector('.faq-icon');
+            otherAnswer.classList.remove('active');
+            otherIcon.classList.remove('active');
+          }
+        });
+      });
+    });
+
+    // 4. Contact Form Submission Handling
+    const contactForm = document.getElementById('contact-form');
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Simulate form submission
+      const submitBtn = contactForm.querySelector('.btn-primary');
+      const originalText = submitBtn.textContent;
+      
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      
+      setTimeout(() => {
+        alert('Message sent successfully! We will contact you within 24 hours');
+        contactForm.reset();
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }, 1500);
+    });
+
+    // 5. Image Loading Optimization
+    document.addEventListener('DOMContentLoaded', () => {
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        img.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+        img.onload = function() {
+          this.classList.remove('opacity-0');
+          this.classList.add('opacity-100');
+        }
+        // Handle cached images
+        if (img.complete) {
+          img.classList.remove('opacity-0');
+          img.classList.add('opacity-100');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

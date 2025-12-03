@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jianxian Agricultural Products - Customer Testimonials</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32', // Natural Green (Consistent with Homepage)
+            secondary: '#8D6E63', // Wood Color
+            light: '#F9FAF9',
+            dark: '#2D3748',
+            gray: {
+              100: '#F3F4F6',
+              200: '#E5E7EB',
+              300: '#D1D5DB',
+              400: '#9CA3AF',
+              500: '#6B7280',
+              600: '#4B5563',
+              700: '#374151',
+              800: '#1F2937',
+              900: '#111827',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
+            'medium': '0 8px 30px rgba(0, 0, 0, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto { content-visibility: auto; }
+      .section-padding { @apply py-16 md:py-24 lg:py-32; }
+      .section-inner { @apply container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl; }
+      .text-balance { text-wrap: balance; }
+      .btn-primary { @apply bg-primary text-white px-6 py-3 rounded-lg transition-all duration-300 hover:bg-primary/90 hover:shadow-medium active:scale-95; }
+      .review-card { @apply bg-white rounded-xl shadow-soft p-6 md:p-8 transition-all duration-300 hover:shadow-medium hover:-translate-y-1; }
+      .star-rating { @apply flex text-yellow-400 mb-3; }
+    }
+  </style>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: #F9FAF9;
+      color: #2D3748;
+      line-height: 1.6;
+    }
+    
+    /* Navbar (Exactly consistent with Homepage) */
+    .header-scroll {
+      transition: all 0.3s ease;
+    }
+    .header-scroll.scrolled {
+      background-color: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      padding: 0.5rem 0;
+    }
+    .nav-link {
+      position: relative;
+      padding: 0.5rem 0;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #2E7D32;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+    
+    /* Page Title Area */
+    .page-header {
+      text-align: center;
+      margin-bottom: 6rem;
+    }
+    .page-header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: #2D3748;
+      margin-bottom: 1.5rem;
+      line-height: 1.3;
+    }
+    .page-header p {
+      font-size: 1.1rem;
+      color: #6B7280;
+      max-width: 500px;
+      margin: 0 auto;
+      text-balance: true;
+    }
+    
+    /* Review Card Layout */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    @media (min-width: 768px) {
+      .reviews-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .reviews-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    /* Review Card Content Style */
+    .review-content {
+      color: #4B5563;
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .reviewer-info {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .reviewer-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid #F3F4F6;
+    }
+    .reviewer-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .reviewer-meta h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2D3748;
+      margin-bottom: 0.2rem;
+    }
+    .reviewer-meta p {
+      font-size: 0.9rem;
+      color: #9CA3AF;
+    }
+    
+    /* Bottom Call to Action Area */
+    .cta-section {
+      margin-top: 8rem;
+      text-align: center;
+      padding: 4rem 2rem;
+      background-color: #F3F4F6;
+      border-radius: 16px;
+    }
+    .cta-section h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+      color: #2D3748;
+      margin-bottom: 1.5rem;
+    }
+    .cta-section p {
+      font-size: 1.1rem;
+      color: #6B7280;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+    
+    /* Footer (Consistent with Rural Characteristics Page) */
+    .footer {
+      background-color: #2D3748;
+      color: #F3F4F6;
+      padding: 4rem 0 2rem;
+    }
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .footer-logo i {
+      font-size: 1.8rem;
+      color: #4CAF50;
+    }
+    .footer-logo span {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .footer-copyright {
+      color: #9CA3AF;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+    
+    /* Back to Top (Consistent with Previous Pages) */
+    #back-to-top {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #2E7D32;
+      color: white;
+      box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    #back-to-top:hover {
+      background-color: #1B5E20;
+      transform: scale(1.1);
+    }
+    
+    /* Fade-In Animation (Subtle) */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 0.8s ease forwards;
+      opacity: 0;
+    }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    .delay-600 { animation-delay: 0.6s; }
+  </style>
+</head>
+
+<body class="bg-light text-dark">
+  <header class="fixed top-0 left-0 right-0 bg-white/92 backdrop-blur-sm z-50 header-scroll py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2">
+        <i class="fa fa-leaf text-primary text-2xl"></i>
+        <span class="text-xl font-bold text-dark">Jianxian Ag Products</span>
+      </a>
+      
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-dark hover:text-primary transition-colors nav-link">Homepage</a>
+        <a href="products.html" class="text-dark hover:text-primary transition-colors nav-link">Agricultural Products</a>
+        <a href="farm.html" class="text-dark hover:text-primary transition-colors nav-link">Planting Bases</a>
+        <a href="features.html" class="text-dark hover:text-primary transition-colors nav-link">Rural Characteristics</a>
+        <a href="testimonials.html" class="text-primary font-medium nav-link active">Customer Testimonials</a>
+        <a href="contact.html" class="text-dark hover:text-primary transition-colors nav-link">Contact Us</a>
+      </nav>
+      
+      <div class="flex items-center gap-5">
+        <button class="text-dark hover:text-primary transition-colors hidden sm:flex items-center gap-1">
+          <i class="fa fa-search text-lg"></i>
+          <span class="text-sm">Search</span>
+        </button>
+        <div class="relative">
+          <button id="cart-btn" class="text-dark hover:text-primary transition-colors flex items-center gap-1">
+            <i class="fa fa-shopping-cart text-xl"></i>
+            <span id="cart-count" class="absolute -top-3 -right-3 bg-primary text-white text-xs w-6 h-6 flex items-center justify-center rounded-full shadow-md">2</span>
+          </button>
+        </div>
+        <button class="text-dark hover:text-primary transition-colors hidden sm:flex items-center gap-1">
+          <i class="fa fa-user text-lg"></i>
+          <span class="text-sm">Log In</span>
+        </button>
+        <button id="menu-btn" class="md:hidden text-dark text-2xl">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100 shadow-md mt-4">
+      <div class="container mx-auto px-4 py-3 flex flex-col gap-3">
+        <a href="index.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Homepage</a>
+        <a href="products.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Agricultural Products</a>
+        <a href="farm.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Planting Bases</a>
+        <a href="features.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Rural Characteristics</a>
+        <a href="comment.html" class="py-3 px-4 text-primary font-medium bg-primary/5 rounded-xl">Customer Testimonials</a>
+        <a href="contact.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Contact Us</a>
+        <div class="flex items-center gap-4 py-3 border-t border-gray-100">
+          <button class="flex-1 py-2 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50 flex items-center justify-center gap-2">
+            <i class="fa fa-search"></i>
+            <span>Search</span>
+          </button>
+          <button class="flex-1 py-2 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50 flex items-center justify-center gap-2">
+            <i class="fa fa-user"></i>
+            <span>Log In</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="section-padding pt-24">
+    <div class="section-inner">
+      <div class="page-header fade-in">
+        <h1>The Authentic Voices of Our Customers</h1>
+        <p>Every review comes from a real experience, witnessing the quality and service of Jianxian Agricultural Products</p>
+      </div>
+
+      <div class="reviews-grid">
+        <div class="review-card fade-in delay-100">
+          <div class="star-rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+          </div>
+          <div class="review-content">
+            Every year, I bring my family to Jianxian Ag Products' rural experience base. The natural environment here is truly healing! The air is fresh, the stream is clear, and the kids can pick fresh fruits and vegetables in the fields and learn simple farming skills from the villagers. The agricultural products are also exceptionally fresh. The rice and vegetables we brought back taste completely different from those bought at the supermarket. Highly recommended!
+          </div>
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <img src="https://picsum.photos/id/64/100/100" alt="Customer Avatar">
+            </div>
+            <div class="reviewer-meta">
+              <h4>Ms. Li</h4>
+              <p>Family Visitor · 3 Experiences</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card fade-in delay-200">
+          <div class="star-rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+          </div>
+          <div class="review-content">
+            As a food blogger, I've always been looking for high-quality, original ecological ingredients. Jianxian Ag Products' organic vegetables and local pork completely meet my expectations! The vegetables are sweet and juicy, and the pork has the perfect fat-to-lean ratio, making the dishes incredibly fragrant. The customer service is also very thoughtful, advising on the best cooking methods and regularly pushing new products. I am a loyal customer now.
+          </div>
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <img src="https://picsum.photos/id/91/100/100" alt="Customer Avatar">
+            </div>
+            <div class="reviewer-meta">
+              <h4>Mr. Zhang</h4>
+              <p>Food Blogger · Long-Term Subscriber</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card fade-in delay-300">
+          <div class="star-rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-half-o"></i>
+          </div>
+          <div class="review-content">
+            Our company team building chose Jianxian Ag Products' rural homestay, and the experience was superb! The homestay is clean and tidy with complete facilities. Outside the window are green mountains and clear water; waking up to the birds singing was so relaxing. The team building activities were rich: picking, BBQ, and farming experience. Everyone had a great time. The owner and villagers were very welcoming and prepared characteristic farm dishes for us. The taste was authentic, and the price was excellent.
+          </div>
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <img src="https://picsum.photos/id/22/100/100" alt="Customer Avatar">
+            </div>
+            <div class="reviewer-meta">
+              <h4>Ms. Wang</h4>
+              <p>Company HR · Team Building Organizer</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card fade-in delay-400">
+          <div class="star-rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+          </div>
+          <div class="review-content">
+            I bought a Jianxian Ag Products gift box for my elderly parents, and they love it! The packaging is simple and elegant, and the mixed grains, honey, and nuts inside are all original ecological products, with no added preservatives, making them safe to eat. The logistics were fast, and the packaging was intact with no damage. My parents say the honey is sweet but not cloying, and the grains make a soft and delicious porridge. I have repurchased several times; it's a great choice for gifts.
+          </div>
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <img src="https://picsum.photos/id/54/100/100" alt="Customer Avatar">
+            </div>
+            <div class="reviewer-meta">
+              <h4>Mr. Zhao</h4>
+              <p>Gift Buyer · 5 Repurchases</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card fade-in delay-500">
+          <div class="star-rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+          </div>
+          <div class="review-content">
+            My first time experiencing rural farming, and it felt very novel! Under the guidance of the farmers, I learned how to transplant rice seedlings and pick strawberries. The children also learned about many crops, which was more intuitive than learning from books. The freshness of the agricultural products is undeniable. The freshly picked strawberries are sweet and sour, and the cucumbers are crisp and refreshing. The only suggestion is to add more parent-child interactive projects. Overall, I am very satisfied.
+          </div>
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <img src="https://picsum.photos/id/45/100/100" alt="Customer Avatar">
+            </div>
+            <div class="reviewer-meta">
+              <h4>Ms. Chen</h4>
+              <p>Parent-Child Visitor · First Experience</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card fade-in delay-600">
+          <div class="star-rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-half-o"></i>
+          </div>
+          <div class="review-content">
+            Friends who love the slow pace of country life must visit! I stayed here for 3 days, spending time admiring the scenery, wandering the fields, and drinking mountain tea every day. My whole self felt relaxed. The bedding at the homestay is very comfortable, and the sound insulation is also good, ensuring quality sleep. Agricultural products can be ordered directly from the fields for fresh delivery, and the price is more affordable than organic products on the market. I will come again next time.
+          </div>
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <img src="https://picsum.photos/id/76/100/100" alt="Customer Avatar">
+            </div>
+            <div class="reviewer-meta">
+              <h4>Mr. Liu</h4>
+              <p>Freelancer · Leisure Vacation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-section fade-in delay-600">
+        <h2>Want to personally experience the charm of Jianxian Agricultural Products?</h2>
+        <p>Whether ordering original ecological agricultural products or booking a rural experience trip, we will provide you with the best quality service</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="products.html" class="btn-primary inline-block">Browse Agricultural Products</a>
+          <a href="contact.html" class="btn-primary inline-block bg-secondary hover:bg-secondary/90">Book Experience</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container mx-auto px-4">
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <i class="fa fa-leaf"></i>
+          <span>Jianxian Ag Products</span>
+        </div>
+        <p class="text-gray-400 max-w-md">
+          Focusing on original ecological agricultural products and rural experiences, bringing nature into life and revitalizing the countryside.
+        </p>
+        <div class="footer-copyright">
+          © 2025 Jianxian Ag Products. All Rights Reserved.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full shadow-md flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-primary/90 z-40">
+    <i class="fa fa-angle-up text-xl"></i>
+  </button>
+
+  <script>
+    // 1. Mobile Menu Toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const icon = menuBtn.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+
+    // 2. Back to Top
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTop.classList.remove('opacity-0', 'invisible');
+        backToTop.classList.add('opacity-100', 'visible');
+      } else {
+        backToTop.classList.add('opacity-0', 'invisible');
+        backToTop.classList.remove('opacity-100', 'visible');
+      }
+      
+      // Navbar scroll effect
+      const header = document.querySelector('.header-scroll');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 3. Image Loading Optimization
+    document.addEventListener('DOMContentLoaded', () => {
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        img.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+        img.onload = function() {
+          this.classList.remove('opacity-0');
+          this.classList.add('opacity-100');
+        }
+        // Handle cached images
+        if (img.complete) {
+          img.classList.remove('opacity-0');
+          img.classList.add('opacity-100');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

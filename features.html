@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jianxian Agricultural Products - Rural Characteristics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32', // Natural Green (Consistent with Homepage)
+            secondary: '#8D6E63', // Wood Color
+            light: '#F9FAF9',
+            dark: '#2D3748',
+            gray: {
+              100: '#F3F4F6',
+              200: '#E5E7EB',
+              300: '#D1D5DB',
+              400: '#9CA3AF',
+              500: '#6B7280',
+              600: '#4B5563',
+              700: '#374151',
+              800: '#1F2937',
+              900: '#111827',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
+            'medium': '0 8px 30px rgba(0, 0, 0, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto { content-visibility: auto; }
+      .section-padding { @apply py-16 md:py-24 lg:py-32; }
+      .section-inner { @apply container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl; }
+      .text-balance { text-wrap: balance; }
+      .btn-primary { @apply bg-primary text-white px-6 py-3 rounded-lg transition-all duration-300 hover:bg-primary/90 hover:shadow-medium active:scale-95; }
+      .feature-card { @apply w-full rounded-xl overflow-hidden bg-white shadow-soft transition-all duration-300 hover:shadow-medium; }
+      .img-cover { @apply w-full h-full object-cover object-center; }
+    }
+  </style>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: #F9FAF9;
+      color: #2D3748;
+      line-height: 1.6;
+    }
+    
+    /* Navbar (Exactly consistent with Homepage) */
+    .header-scroll {
+      transition: all 0.3s ease;
+    }
+    .header-scroll.scrolled {
+      background-color: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      padding: 0.5rem 0;
+    }
+    .nav-link {
+      position: relative;
+      padding: 0.5rem 0;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #2E7D32;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+    
+    /* Carousel (Exactly consistent with Homepage) */
+    .hero-slider {
+      position: relative;
+      height: 65vh;
+      min-height: 450px;
+      max-height: 600px;
+      overflow: hidden;
+    }
+    .slider-item {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    .slider-item.active {
+      opacity: 1;
+      z-index: 1;
+    }
+    .slider-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(0.85);
+    }
+    .slider-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.4));
+      z-index: 1;
+    }
+    .slider-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      text-align: center;
+      width: 90%;
+      max-width: 800px;
+    }
+    .slider-dots {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      gap: 12px;
+    }
+    .slider-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .slider-dot.active {
+      background: white;
+      width: 40px;
+      border-radius: 6px;
+    }
+    .slider-controls {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      z-index: 3;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+    .slider-control {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(4px);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .slider-control:hover {
+      background: rgba(255,255,255,0.4);
+      transform: scale(1.1);
+    }
+    
+    /* Minimalist Staggered Text-Image Layout Core Style */
+    .feature-section {
+      margin-bottom: 8rem;
+    }
+    .feature-header {
+      margin-bottom: 4rem;
+      text-align: center;
+    }
+    .feature-grid {
+      display: grid;
+      gap: 2.5rem;
+    }
+    /* Staggered layout rules: odd rows text-left image-right, even rows image-left text-right */
+    .feature-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    @media (min-width: 768px) {
+      .feature-row {
+        grid-template-columns: 1fr 1fr;
+      }
+      .feature-row:nth-child(odd) .feature-text {
+        order: 1;
+        align-self: center;
+        padding-right: 2rem;
+      }
+      .feature-row:nth-child(odd) .feature-img {
+        order: 2;
+      }
+      .feature-row:nth-child(even) .feature-text {
+        order: 2;
+        align-self: center;
+        padding-left: 2rem;
+      }
+      .feature-row:nth-child(even) .feature-img {
+        order: 1;
+      }
+    }
+    .feature-img {
+      border-radius: 12px;
+      overflow: hidden;
+      height: 300px;
+      md:height: 400px;
+    }
+    .feature-text h3 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      color: #2D3748;
+      line-height: 1.3;
+    }
+    .feature-text p {
+      color: #4B5563;
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    .feature-text p:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* Simple Footer Style */
+    .footer {
+      background-color: #2D3748;
+      color: #F3F4F6;
+      padding: 4rem 0 2rem;
+    }
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .footer-logo i {
+      font-size: 1.8rem;
+      color: #4CAF50;
+    }
+    .footer-logo span {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .footer-copyright {
+      color: #9CA3AF;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+    
+    /* Back to Top (Minimalist Style) */
+    #back-to-top {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #2E7D32;
+      color: white;
+      box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    #back-to-top:hover {
+      background-color: #1B5E20;
+      transform: scale(1.1);
+    }
+    
+    /* Fade-In Animation (Subtle) */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 0.8s ease forwards;
+      opacity: 0;
+    }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+  </style>
+</head>
+
+<body class="bg-light text-dark">
+  <header class="fixed top-0 left-0 right-0 bg-white/92 backdrop-blur-sm z-50 header-scroll py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2">
+        <i class="fa fa-leaf text-primary text-2xl"></i>
+        <span class="text-xl font-bold text-dark">Jianxian Ag Products</span>
+      </a>
+      
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-dark hover:text-primary transition-colors nav-link">Homepage</a>
+        <a href="products.html" class="text-dark hover:text-primary transition-colors nav-link">Agricultural Products</a>
+        <a href="farm.html" class="text-dark hover:text-primary transition-colors nav-link">Planting Bases</a>
+        <a href="features.html" class="text-primary font-medium nav-link active">Rural Characteristics</a>
+        <a href="comment.html" class="text-dark hover:text-primary transition-colors nav-link">Customer Testimonials</a>
+        <a href="contact.html" class="text-dark hover:text-primary transition-colors nav-link">Contact Us</a>
+      </nav>
+      
+      <div class="flex items-center gap-5">
+        <button class="text-dark hover:text-primary transition-colors hidden sm:flex items-center gap-1">
+          <i class="fa fa-search text-lg"></i>
+          <span class="text-sm">Search</span>
+        </button>
+        <div class="relative">
+          <button id="cart-btn" class="text-dark hover:text-primary transition-colors flex items-center gap-1">
+            <i class="fa fa-shopping-cart text-xl"></i>
+            <span id="cart-count" class="absolute -top-3 -right-3 bg-primary text-white text-xs w-6 h-6 flex items-center justify-center rounded-full shadow-md">2</span>
+          </button>
+        </div>
+        <button class="text-dark hover:text-primary transition-colors hidden sm:flex items-center gap-1">
+          <i class="fa fa-user text-lg"></i>
+          <span class="text-sm">Log In</span>
+        </button>
+        <button id="menu-btn" class="md:hidden text-dark text-2xl">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100 shadow-md mt-4">
+      <div class="container mx-auto px-4 py-3 flex flex-col gap-3">
+        <a href="index.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Homepage</a>
+        <a href="products.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Agricultural Products</a>
+        <a href="farm.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Planting Bases</a>
+        <a href="features.html" class="py-3 px-4 text-primary font-medium bg-primary/5 rounded-xl">Rural Characteristics</a>
+        <a href="comment.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Customer Testimonials</a>
+        <a href="contact.html" class="py-3 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50">Contact Us</a>
+        <div class="flex items-center gap-4 py-3 border-t border-gray-100">
+          <button class="flex-1 py-2 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50 flex items-center justify-center gap-2">
+            <i class="fa fa-search"></i>
+            <span>Search</span>
+          </button>
+          <button class="flex-1 py-2 px-4 text-dark hover:text-primary transition-colors rounded-xl hover:bg-gray-50 flex items-center justify-center gap-2">
+            <i class="fa fa-user"></i>
+            <span>Log In</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-slider mt-16">
+    <div class="slider-item active">
+      <img src="images//shouye04.jpg" alt="Rural Morning Mist Scenery" class="w-full h-full object-cover">
+      <div class="slider-overlay"></div>
+      <div class="slider-content">
+        <h1 class="text-[clamp(2.2rem,5vw,3.8rem)] font-bold text-white mb-6 leading-tight">
+          Explore the Realm of Nature · Taste the Authenticity of the Countryside
+        </h1>
+        <p class="text-[clamp(1.1rem,2vw,1.4rem)] text-white/90 mb-8 max-w-2xl mx-auto">
+          Escape the city's hustle and bustle, step into the original ecological countryside nestled among green mountains and clear waters, and feel the perfect blend of nature and humanity
+        </p>
+        <a href="#features" class="btn-primary inline-block">
+          Discover the Beauty of the Countryside
+        </a>
+      </div>
+    </div>
+    
+    <div class="slider-item">
+      <img src="images/farm02.jpg" alt="Rural Terraced Fields Scenery" class="w-full h-full object-cover">
+      <div class="slider-overlay"></div>
+      <div class="slider-content">
+        <h1 class="text-[clamp(2.2rem,5vw,3.8rem)] font-bold text-white mb-6 leading-tight">
+          Lush Terraced Fields · A Living Fossil of Agrarian Civilization
+        </h1>
+        <p class="text-[clamp(1.1rem,2vw,1.4rem)] text-white/90 mb-8 max-w-2xl mx-auto">
+          Thousands of acres of terraced fields layered one upon another, witnessing generations of farming wisdom, where spring sowing and autumn harvest are all picturesque
+        </p>
+        <a href="#features" class="btn-primary inline-block">
+          Experience the Joy of Farming
+        </a>
+      </div>
+    </div>
+    
+    <div class="slider-item">
+      <img src="images/shouye06.jpg" alt="Rural Folk Activities" class="w-full h-full object-cover">
+      <div class="slider-overlay"></div>
+      <div class="slider-content">
+        <h1 class="text-[clamp(2.2rem,5vw,3.8rem)] font-bold text-white mb-6 leading-tight">
+          Folk Heritage · The Cultural Root in the Atmosphere of Life
+        </h1>
+        <p class="text-[clamp(1.1rem,2vw,1.4rem)] text-white/90 mb-8 max-w-2xl mx-auto">
+          Intangible cultural heritage handicrafts, traditional festivals, and rural cuisine – feel the purest charm of folk culture
+        </p>
+        <a href="#features" class="btn-primary inline-block">
+          Participate in Folk Activities
+        </a>
+      </div>
+    </div>
+    
+    <div class="slider-controls">
+      <div class="slider-control prev-btn">
+        <i class="fa fa-angle-left text-2xl"></i>
+      </div>
+      <div class="slider-control next-btn">
+        <i class="fa fa-angle-right text-2xl"></i>
+      </div>
+    </div>
+    
+    <div class="slider-dots">
+      <div class="slider-dot active" data-index="0"></div>
+      <div class="slider-dot" data-index="1"></div>
+      <div class="slider-dot" data-index="2"></div>
+    </div>
+  </section>
+
+  <main id="features" class="section-padding">
+    <div class="section-inner">
+      <div class="feature-header fade-in">
+        <h2 class="text-[clamp(1.8rem,4vw,2.8rem)] font-bold text-dark mb-4 text-balance">Rural Characteristics · A Symphony of Nature and Culture</h2>
+        <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto text-balance">
+          Here there is no complicated decoration, only the most authentic rural landscape. Every piece of scenery, every culture, and every experience stems from the gifts of nature and the precipitation of time.
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-row fade-in delay-100">
+          <div class="feature-text">
+            <h3>Mountain & Water Sanctuary · Natural Oxygen Bar</h3>
+            <p>
+              The countryside is nestled among rolling mountains, with a forest coverage rate of up to 75%. Three natural streams run through the village, and the negative oxygen ion content far exceeds urban standards, making it a genuine "natural oxygen bar." There is no industrial pollution here, only fresh air, lush green forests, and clear streams.
+            </p>
+            <p>
+              The scenery changes with the seasons: mountains full of wildflowers in spring, dense shade in summer, layers of dyed forest in autumn, and silver-coated landscapes in winter. Millennium ancient trees, natural waterfalls, and mountain caves are scattered throughout, making every step a scenic view.
+            </p>
+          </div>
+          <div class="feature-img">
+            <img src="images/feature01.jpg" alt="Rural Natural Landscape" class="img-cover">
+          </div>
+        </div>
+
+        <div class="feature-row fade-in delay-200">
+          <div class="feature-img">
+            <img src="images/feature02.jpg" alt="Rural Folk Culture" class="img-cover">
+          </div>
+          <div class="feature-text">
+            <h3>Folk Heritage · Cultural Life</h3>
+            <p>
+              The century-old village has accumulated profound folk culture, passed down through generations of villagers, perfectly preserving ancient crafts and customs. There is no elaborate packaging, only the purest atmosphere of life.
+            </p>
+            <p>
+              Traditional crafts such as bamboo weaving, wood carving, and hand-woven cloth continue here. Festive activities like dragon and lion dances during the Spring Festival, making Zongzi during the Dragon Boat Festival, and moon viewing during the Mid-Autumn Festival are lively and colorful. Rural cuisine, such as firewood-cooked rice, handmade rice cakes, preserved meat, and sausages, are made with original ecological ingredients, pure in taste, carrying the memories of a generation.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-row fade-in delay-300">
+          <div class="feature-text">
+            <h3>Joy of Farming · Return to Authenticity</h3>
+            <p>
+              Say goodbye to superficial sightseeing and deeply participate in rural farming life. Follow local farmers to the fields for plowing, watering, fertilizing, and harvesting, experiencing the entire process from sowing to harvest and appreciating the hard-won nature of food.
+            </p>
+            <p>
+              In the organic fruit and vegetable greenhouses, fresh produce like strawberries, tomatoes, and cucumbers can be picked and eaten on the spot. In the fields, learn traditional farming techniques and understand the growth cycle of crops. In the farmyard, experience the fun of cooking with firewood and taste the rural delicacies you made yourself.
+            </p>
+          </div>
+          <div class="feature-img">
+            <img src="images/feature03.jpg" alt="Farming Experience" class="img-cover">
+          </div>
+        </div>
+
+        <div class="feature-row fade-in delay-300">
+          <div class="feature-img">
+            <img src="images/feature04.jpeg" alt="Rural Homestay" class="img-cover">
+          </div>
+          <div class="feature-text">
+            <h3>Homestay Retreat · Quietly Enjoy Time</h3>
+            <p>
+              Stay in an authentic rural homestay, without standardized hotel amenities, only the warmth of home. Wooden structure houses, sunlit courtyards, and starlit nights will let you escape the urban noise.
+            </p>
+            <p>
+              Wake up to bird song in the morning, open the window to green mountains and clear waters. Sit in the courtyard in the evening, listen to the chirping of insects and frogs, drink a cup of homemade rice wine, and feel the tranquility and comfort of the countryside. The homestay hosts are warm and welcoming, ready to tell you stories of the countryside and recommend off-the-beaten-path travel routes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-16 text-center fade-in delay-300">
+        <a href="contact.html" class="btn-primary inline-block">
+          Customize Your Rural Trip
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container mx-auto px-4">
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <i class="fa fa-leaf"></i>
+          <span>Jianxian Ag Products</span>
+        </div>
+        <p class="text-gray-400 max-w-md">
+          Focusing on original ecological agricultural products and rural experiences, bringing nature into life and revitalizing the countryside.
+        </p>
+        <div class="footer-copyright">
+          © 2025 Jianxian Ag Products. All Rights Reserved.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full shadow-md flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-primary/90 z-40">
+    <i class="fa fa-angle-up text-xl"></i>
+  </button>
+
+  <script>
+    // 1. Mobile Menu Toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const icon = menuBtn.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+
+    // 2. Carousel Functionality (Consistent with Homepage)
+    const sliderItems = document.querySelectorAll('.slider-item');
+    const sliderDots = document.querySelectorAll('.slider-dot');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    let currentSlide = 0;
+    let slideInterval;
+
+    function initSlider() {
+      slideInterval = setInterval(nextSlide, 6000);
+    }
+
+    function goToSlide(index) {
+      sliderItems.forEach(item => item.classList.remove('active'));
+      sliderDots.forEach(dot => dot.classList.remove('active'));
+      
+      sliderItems[index].classList.add('active');
+      sliderDots[index].classList.add('active');
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      let newIndex = (currentSlide + 1) % sliderItems.length;
+      goToSlide(newIndex);
+    }
+
+    function prevSlide() {
+      let newIndex = (currentSlide - 1 + sliderItems.length) % sliderItems.length;
+      goToSlide(newIndex);
+    }
+
+    prevBtn.addEventListener('click', () => {
+      clearInterval(slideInterval);
+      prevSlide();
+      slideInterval = setInterval(nextSlide, 6000);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      clearInterval(slideInterval);
+      nextSlide();
+      slideInterval = setInterval(nextSlide, 6000);
+    });
+
+    sliderDots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        clearInterval(slideInterval);
+        goToSlide(index);
+        slideInterval = setInterval(nextSlide, 6000);
+      });
+    });
+
+    // 3. Back to Top
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTop.classList.remove('opacity-0', 'invisible');
+        backToTop.classList.add('opacity-100', 'visible');
+      } else {
+        backToTop.classList.add('opacity-0', 'invisible');
+        backToTop.classList.remove('opacity-100', 'visible');
+      }
+      
+      // Navbar scroll effect
+      const header = document.querySelector('.header-scroll');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 4. Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      initSlider();
+      
+      // Image loading optimization
+      const images = document.querySelectorAll('img');
+      images.forEach(img => {
+        img.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+        img.onload = function() {
+          this.classList.remove('opacity-0');
+          this.classList.add('opacity-100');
+        }
+        // Handle cached images
+        if (img.complete) {
+          img.classList.remove('opacity-0');
+          img.classList.add('opacity-100');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

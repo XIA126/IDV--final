@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jianxian Agricultural Products - Planting Base</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2E7D32', // Main Color: Natural Green
+            secondary: '#8D6E63', // Accent Color: Wood Color
+            light: '#F9FAF9',   // Light Background
+            dark: '#334155',    // Dark Text
+            earth: '#D7CCC8',   // Earth Tone
+            accent: '#4CAF50',  // Emphasis Color
+            neutral: '#F5F5F5', // Neutral Color
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['"Noto Serif SC"', 'serif'],
+          },
+          boxShadow: {
+            'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
+            'medium': '0 8px 30px rgba(0, 0, 0, 0.1)',
+            'hard': '0 12px 40px rgba(0, 0, 0, 0.15)',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto { content-visibility: auto; }
+      .section-padding { @apply py-16 md:py-24; }
+      .card-hover { @apply transition-all duration-300 hover:shadow-hard hover:-translate-y-1; }
+      .text-shadow { @apply drop-shadow-md; }
+      .text-shadow-lg { @apply drop-shadow-lg; }
+      .btn-primary { @apply bg-primary text-white px-6 py-3 rounded-md transition-all duration-300 hover:bg-primary/90 hover:shadow-lg hover:scale-105 active:scale-95; }
+      .btn-outline { @apply border border-primary text-primary px-6 py-3 rounded-md transition-all duration-300 hover:bg-primary/5 hover:shadow-md; }
+      .section-title { @apply text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-dark; }
+      .section-subtitle { @apply text-gray-600 max-w-2xl mx-auto text-lg; }
+      .section-divider { @apply w-20 h-1 bg-primary mx-auto mt-6 rounded-full; }
+      .card-radius { @apply rounded-2xl overflow-hidden; }
+      .img-hover-zoom { @apply overflow-hidden; }
+      .img-hover-zoom img { @apply transition-transform duration-700 hover:scale-110; }
+    }
+  </style>
+  
+  <style>
+    /* Basic Styles */
+    html { scroll-behavior: smooth; }
+    body { 
+      font-family: 'Inter', system-ui, sans-serif; 
+      background-color: #F9FAF9;
+      color: #334155;
+    }
+    
+    /* Carousel Styles */
+    .hero-carousel { 
+      position: relative; 
+      overflow: hidden; 
+    }
+    .carousel-slide { 
+      transition: transform 0.5s ease-in-out; 
+    }
+    .carousel-dot { 
+      width: 12px; 
+      height: 12px; 
+      border-radius: 50%; 
+      transition: all 0.3s ease; 
+    }
+    .carousel-dot.active { 
+      background-color: #2E7D32; 
+      width: 36px; 
+      border-radius: 6px; 
+    }
+    .carousel-prev, .carousel-next {
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+    .carousel-prev:hover, .carousel-next:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Image Lazy Loading Animation */
+    .img-loading {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    
+    /* Planting Process Step Line */
+    .process-line {
+      @apply absolute left-1/2 top-10 bottom-10 w-0.5 bg-primary/20 -translate-x-1/2 hidden md:block;
+    }
+    
+    /* Step Number Style */
+    .process-number {
+      box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
+      transition: all 0.3s ease;
+    }
+    .process-number:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+    }
+    
+    /* Enhanced Card Hover Effect */
+    .feature-card {
+      transition: all 0.4s ease;
+      border: 1px solid transparent;
+    }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      border-color: rgba(46, 125, 50, 0.1);
+    }
+    
+    /* Form Style */
+    .form-input {
+      transition: all 0.3s ease;
+    }
+    .form-input:focus {
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+    }
+    
+    /* Navbar Scroll Effect */
+    .header-scroll {
+      transition: all 0.3s ease;
+    }
+    .header-scroll.scrolled {
+      background-color: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      padding: 0.5rem 0;
+    }
+    
+    /* Breadcrumb Style */
+    .breadcrumb-item {
+      position: relative;
+    }
+    .breadcrumb-item:not(:last-child)::after {
+      content: '/';
+      margin: 0 8px;
+      color: #94A3B8;
+    }
+    
+    /* Report Card Style */
+    .report-card {
+      transition: all 0.3s ease;
+      border: 1px solid #E2E8F0;
+    }
+    .report-card:hover {
+      border-color: #2E7D32;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Reservation Module Gradient Effect */
+    .reservation-gradient {
+      background: linear-gradient(135deg, rgba(46, 125, 50, 0.05) 0%, rgba(141, 110, 99, 0.05) 100%);
+    }
+    
+    /* Footer Style */
+    .footer-text {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .process-line {
+        display: none;
+      }
+      .carousel-dot {
+        width: 10px;
+        height: 10px;
+      }
+      .carousel-dot.active {
+        width: 28px;
+      }
+      .section-padding {
+        padding: 12px 0;
+      }
+      .base-card {
+        flex-direction: column !important;
+      }
+      .base-card-img, .base-card-content {
+        width: 100% !important;
+      }
+    }
+    
+    /* Animation Effect */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 0.8s ease forwards;
+    }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    
+    /* Base Card Hover Effect */
+    .base-card {
+      transition: all 0.5s ease;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+    .base-card:hover {
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+      transform: translateY(-5px);
+    }
+  </style>
+</head>
+
+<body class="bg-light text-dark">
+  <header class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50 header-scroll">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2">
+        <i class="fa fa-leaf text-primary text-xl"></i>
+        <span class="text-lg font-bold">Jianxian Ag Products</span>
+      </a>
+      
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="index.html" class="text-dark hover:text-primary transition-colors">Homepage</a>
+        <a href="products.html" class="text-dark hover:text-primary transition-colors">Agricultural Products</a>
+        <a href="farm.html" class="text-primary font-medium border-b-2 border-primary pb-1">Planting Bases</a>
+        <a href="features.html" class="text-dark hover:text-primary transition-colors">Rural Characteristics</a>
+        <a href="comment.html" class="text-dark hover:text-primary transition-colors">Customer Testimonials</a>
+        <a href="contact.html" class="text-dark hover:text-primary transition-colors">Contact Us</a>
+      </nav>
+      
+      <div class="flex items-center gap-4">
+        <button class="text-dark hover:text-primary transition-colors hidden sm:block">
+          <i class="fa fa-search text-lg"></i>
+        </button>
+        <div class="relative">
+          <button id="cart-btn" class="text-dark hover:text-primary transition-colors">
+            <i class="fa fa-shopping-cart text-xl"></i>
+            <span id="cart-count" class="absolute -top-2 -right-2 bg-primary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">2</span>
+          </button>
+        </div>
+        <button class="text-dark hover:text-primary transition-colors hidden sm:block">
+          <i class="fa fa-user text-lg"></i>
+        </button>
+        <button id="menu-btn" class="md:hidden text-dark text-xl">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+      <div class="container mx-auto px-4 py-2 flex flex-col gap-3">
+        <a href="index.html" class="py-2 text-dark hover:text-primary transition-colors">Homepage</a>
+        <a href="products.html" class="py-2 text-dark hover:text-primary transition-colors">Agricultural Products</a>
+        <a href="farm.html" class="py-2 text-primary font-medium">Planting Bases</a>
+        <a href="features.html" class="py-2 text-dark hover:text-primary transition-colors">Rural Characteristics</a>
+        <a href="comment.html" class="py-2 text-dark hover:text-primary transition-colors">Customer Testimonials</a>
+        <a href="contact.html" class="py-2 text-dark hover:text-primary transition-colors">Contact Us</a>
+        <div class="flex items-center gap-4 py-2 border-t">
+          <button class="text-dark hover:text-primary transition-colors">
+            <i class="fa fa-search text-lg"></i>
+          </button>
+          <button class="text-dark hover:text-primary transition-colors">
+            <i class="fa fa-user text-lg"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-carousel pt-16 h-[60vh] md:h-[70vh] min-h-[400px]">
+    <div class="carousel-track h-full flex" style="transform: translateX(0)">
+      <div class="carousel-slide min-w-full h-full">
+        <div class="relative w-full h-full img-hover-zoom">
+          <img src="images/farm01.jpg" alt="Northeast Black Soil Planting Base" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-r from-dark/60 to-dark/30 flex items-center">
+            <div class="container mx-auto px-4 md:px-8">
+              <div class="max-w-2xl text-white fade-in">
+                <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold mb-4 text-shadow-lg">Northeast Black Soil Planting Base</h1>
+                <p class="text-[clamp(1rem,2vw,1.25rem)] mb-8 opacity-90 text-shadow">Cultivating the natural flavor, adhering to organic farming, and full chain quality control from farm to table</p>
+                <div class="flex flex-wrap gap-4">
+                  <a href="#base-intro" class="btn-primary">Learn About the Base</a>
+                  <a href="#plant-process" class="btn-outline text-white border-white hover:bg-white/10">Planting Process</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide min-w-full h-full">
+        <div class="relative w-full h-full img-hover-zoom">
+          <img src="images/farm02.jpg" alt="Yunnan Alpine Ecological Farm" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-r from-dark/60 to-dark/30 flex items-center">
+            <div class="container mx-auto px-4 md:px-8">
+              <div class="max-w-2xl text-white fade-in delay-100">
+                <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold mb-4 text-shadow-lg">Yunnan Alpine Ecological Farm</h1>
+                <p class="text-[clamp(1rem,2vw,1.25rem)] mb-8 opacity-90 text-shadow">Pure environment at 2000 meters above sea level, large day-night temperature difference, achieving unique flavor and nutrition</p>
+                <div class="flex flex-wrap gap-4">
+                  <a href="#base-intro" class="btn-primary">Learn About the Base</a>
+                  <a href="#plant-process" class="btn-outline text-white border-white hover:bg-white/10">Planting Process</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide min-w-full h-full">
+        <div class="relative w-full h-full img-hover-zoom">
+          <img src="images/farm03.jpg" alt="Shandong Organic Vegetable Base" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-r from-dark/60 to-dark/30 flex items-center">
+            <div class="container mx-auto px-4 md:px-8">
+              <div class="max-w-2xl text-white fade-in delay-200">
+                <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold mb-4 text-shadow-lg">Shandong Organic Vegetable Base</h1>
+                <p class="text-[clamp(1rem,2vw,1.25rem)] mb-8 opacity-90 text-shadow">Fertile soil of the Yellow River Delta, standardized planting, picked on the day and delivered directly to consumers</p>
+                <div class="flex flex-wrap gap-4">
+                  <a href="#base-intro" class="btn-primary">Learn About the Base</a>
+                  <a href="#plant-process" class="btn-outline text-white border-white hover:bg-white/10">Planting Process</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <button class="carousel-prev absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary transition-colors z-10">
+      <i class="fa fa-angle-left text-2xl"></i>
+    </button>
+    <button class="carousel-next absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary transition-colors z-10">
+      <i class="fa fa-angle-right text-2xl"></i>
+    </button>
+    
+    <div class="absolute bottom-6 left-0 right-0 flex justify-center gap-3 z-10">
+      <button class="carousel-dot active bg-white/50"></button>
+      <button class="carousel-dot bg-white/50"></button>
+      <button class="carousel-dot bg-white/50"></button>
+    </div>
+  </section>
+
+  <section class="py-4 bg-white border-b shadow-sm">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center text-sm text-gray-600">
+        <a href="index.html" class="hover:text-primary transition-colors breadcrumb-item">Homepage</a>
+        <a href="farm.html" class="hover:text-primary transition-colors breadcrumb-item">Planting Bases</a>
+        <span class="text-primary breadcrumb-item">Base Introduction</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="base-intro" class="section-padding bg-white">
+    <div class="container mx-auto px-4 md:px-8">
+      <div class="flex flex-col md:flex-row gap-12 items-center">
+        <div class="md:w-1/2 fade-in">
+          <h2 class="section-title">
+            Our Planting Bases:<br><span class="text-primary">Naturally Nurtured, Carefully Cultivated</span>
+          </h2>
+          <div class="prose prose-lg text-gray-600 mb-8 leading-relaxed">
+            <p>Jianxian Ag Products currently owns three core planting bases, located in the Northeast Black Soil, Yunnan Alpine, and Shandong Yellow River Delta, with a total area exceeding 2000 mu, forming a modern ecological agricultural base integrating planting, research, processing, and distribution.</p>
+            <p class="mt-4">We always adhere to the planting philosophy of "Natural, Organic, and Healthy," refusing to use chemical pesticides, fertilizers, and ripening agents. We combine traditional farming methods with modern ecological agriculture technology to maximize the preservation of crops' natural quality and nutritional content.</p>
+            <p class="mt-4">The bases are far from urban pollution, possessing unique natural conditions: the Northeast base's black soil layer is 30-100 cm thick, rich in humus; the Yunnan base is over 2000 meters above sea level, with ample sunshine and a large day-night temperature difference; the Shandong base is located at the Yellow River estuary, with fertile soil and pure water sources.</p>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+            <div class="text-center p-3 bg-neutral rounded-lg">
+              <div class="text-primary text-3xl font-bold mb-2">3+</div>
+              <p class="text-gray-600 text-sm">Core Planting Bases</p>
+            </div>
+            <div class="text-center p-3 bg-neutral rounded-lg">
+              <div class="text-primary text-3xl font-bold mb-2">2000+</div>
+              <p class="text-gray-600 text-sm">Mu Planting Area</p>
+            </div>
+            <div class="text-center p-3 bg-neutral rounded-lg">
+              <div class="text-primary text-3xl font-bold mb-2">15+</div>
+              <p class="text-gray-600 text-sm">Organic Certified Categories</p>
+            </div>
+            <div class="text-center p-3 bg-neutral rounded-lg">
+              <div class="text-primary text-3xl font-bold mb-2">0</div>
+              <p class="text-gray-600 text-sm">Chemical Pesticide Use</p>
+            </div>
+          </div>
+          <a href="#base-detail" class="btn-primary inline-flex items-center gap-2">
+            View Base Details <i class="fa fa-long-arrow-right"></i>
+          </a>
+        </div>
+        <div class="md:w-1/2 grid grid-cols-2 gap-4 fade-in delay-100">
+          <div class="rounded-xl overflow-hidden shadow-medium img-hover-zoom">
+            <img src="images/farm01.jpg" alt="Northeast Black Soil Base" class="w-full h-full object-cover">
+          </div>
+          <div class="flex flex-col gap-4">
+            <div class="rounded-xl overflow-hidden shadow-medium flex-1 img-hover-zoom">
+              <img src="images/farm02.jpg" alt="Yunnan Alpine Base" class="w-full h-full object-cover">
+            </div>
+            <div class="rounded-xl overflow-hidden shadow-medium flex-1 img-hover-zoom">
+              <img src="images/farm03.jpg" alt="Shandong Vegetable Base" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="base-detail" class="section-padding bg-light">
+    <div class="container mx-auto px-4 md:px-8">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="section-title">Three Core Planting Bases</h2>
+        <p class="section-subtitle">Natural gifts from different regions, jointly nurturing high-quality agricultural products</p>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="bg-white base-card card-radius mb-16">
+        <div class="flex flex-col md:flex-row base-card">
+          <div class="md:w-1/2 base-card-img img-hover-zoom">
+            <img src="images/farm01.jpg" alt="Northeast Black Soil Planting Base" class="w-full h-full object-cover">
+          </div>
+          <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center base-card-content">
+            <div class="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">Core Base · Northeast</div>
+            <h3 class="text-2xl md:text-3xl font-bold mb-6 text-dark">Northeast Black Soil Planting Base</h3>
+            <div class="prose prose-lg text-gray-600 mb-8 leading-relaxed">
+              <p>Located in Wuchang City, Heilongjiang Province, situated in the heart of the Songnen Plain, it is one of the world's three major black soil regions. The black soil layer here is 30-100 cm thick, rich in humus and various minerals, with extremely high soil fertility, known as the "Panda of Cultivated Land."</p>
+              <p class="mt-4">The base covers an area of 1200 mu, mainly planting organic rice, black beans, soybeans, and other grain crops. Thanks to the temperate continental monsoon climate, the summer here is warm and humid, with ample sunshine, and rain and heat occur simultaneously, which is very suitable for grain growth.</p>
+              <p class="mt-4">We adopt the "rice-duck co-culture" ecological planting model, where ducks forage for pests and weeds in the rice fields, and their droppings become natural fertilizer, forming a virtuous ecological cycle. The rice is harvested manually and naturally air-dried after ripening, preserving the most original rice aroma and nutrition.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-6 mb-6">
+              <div class="bg-neutral p-4 rounded-lg">
+                <h4 class="font-bold text-lg mb-2 text-dark">Main Crops</h4>
+                <ul class="text-gray-600 space-y-2">
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-primary"></i> Wuchang Organic Rice
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-primary"></i> Northeast Black Soybean
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-primary"></i> Organic Sorghum
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-primary"></i> Oat Rice
+                  </li>
+                </ul>
+              </div>
+              <div class="bg-neutral p-4 rounded-lg">
+                <h4 class="font-bold text-lg mb-2 text-dark">Natural Advantages</h4>
+                <ul class="text-gray-600 space-y-2">
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-primary"></i> Fertile Black Soil
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-primary"></i> Ample Sunshine
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-primary"></i> Pure Water Source
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-primary"></i> Ecological Cycle
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white base-card card-radius mb-16">
+        <div class="flex flex-col md:flex-row-reverse base-card">
+          <div class="md:w-1/2 base-card-img img-hover-zoom">
+            <img src="images/farm02.jpg" alt="Yunnan Alpine Ecological Farm" class="w-full h-full object-cover">
+          </div>
+          <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center base-card-content">
+            <div class="inline-block bg-secondary/10 text-secondary px-4 py-2 rounded-full text-sm font-medium mb-6">Core Base · Yunnan</div>
+            <h3 class="text-2xl md:text-3xl font-bold mb-6 text-dark">Yunnan Alpine Ecological Farm</h3>
+            <div class="prose prose-lg text-gray-600 mb-8 leading-relaxed">
+              <p>Located in Dali Bai Autonomous Prefecture, Yunnan Province, at an altitude of 2000-2500 meters, it features an alpine three-dimensional climate. It is far from industrial pollution, with fresh air, excellent water quality, and soil rich in trace elements like selenium, making it an ideal growing environment for organic crops.</p>
+              <p class="mt-4">The base covers an area of 600 mu, mainly planting characteristic crops such as blueberries, apples, walnuts, and cashews. Due to the high altitude, the day-night temperature difference can exceed $15^\circ\text{C}$, which is conducive to the accumulation of sugar and nutrients in the crops, resulting in better fruit taste and richer nutrition.</p>
+              <p class="mt-4">We adhere to the "following nature" planting philosophy, using natural farming methods, avoiding any chemical agents, relying on manual weeding, physical pest control, and organic fertilizer application. All crops are naturally ripened, without ripening agents or waxing, preserving the most authentic flavor.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-6 mb-6">
+              <div class="bg-neutral p-4 rounded-lg">
+                <h4 class="font-bold text-lg mb-2 text-dark">Main Crops</h4>
+                <ul class="text-gray-600 space-y-2">
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-secondary"></i> Alpine Blueberries
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-secondary"></i> Yunnan Apples
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-secondary"></i> Organic Cashews
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-secondary"></i> Alpine Walnuts
+                  </li>
+                </ul>
+              </div>
+              <div class="bg-neutral p-4 rounded-lg">
+                <h4 class="font-bold text-lg mb-2 text-dark">Natural Advantages</h4>
+                <ul class="text-gray-600 space-y-2">
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-secondary"></i> High-Altitude Pure Environment
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-secondary"></i> Large Day-Night Temperature Difference
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-secondary"></i> Rich in Selenium
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-secondary"></i> Natural Maturation
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white base-card card-radius">
+        <div class="flex flex-col md:flex-row base-card">
+          <div class="md:w-1/2 base-card-img img-hover-zoom">
+            <img src="images/farm07.jpg" alt="Shandong Organic Vegetable Base" class="w-full h-full object-cover">
+          </div>
+          <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center base-card-content">
+            <div class="inline-block bg-earth/20 text-earth px-4 py-2 rounded-full text-sm font-medium mb-6">Core Base · Shandong</div>
+            <h3 class="text-2xl md:text-3xl font-bold mb-6 text-dark">Shandong Organic Vegetable Base</h3>
+            <div class="prose prose-lg text-gray-600 mb-8 leading-relaxed">
+              <p>Located in Dongying City, Shandong Province, in the Yellow River Delta, a plain formed by the Yellow River estuary alluvial. The soil is fertile, rich in minerals and organic matter. It features a temperate monsoon climate, with ample sunshine and simultaneous rain and heat, highly suitable for vegetable growth.</p>
+              <p class="mt-4">The base covers an area of 800 mu, utilizing a combination of modern greenhouses and open-field cultivation, mainly planting over 20 types of vegetables such as organic lettuce, cherry tomatoes, cucumbers, broccoli, and carrots. The base is equipped with a complete irrigation system and temperature control equipment to ensure a stable growing environment for crops.</p>
+              <p class="mt-4">We have established a strict quality traceability system, with every batch of vegetables having a unique traceability code. Consumers can scan the code to view the entire process information for planting, fertilization, picking, testing, etc. Vegetables are pre-cooled immediately after picking and delivered to the whole country via cold chain logistics, ensuring fresh arrival within 24-48 hours.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-6 mb-6">
+              <div class="bg-neutral p-4 rounded-lg">
+                <h4 class="font-bold text-lg mb-2 text-dark">Main Crops</h4>
+                <ul class="text-gray-600 space-y-2">
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-earth"></i> Organic Lettuce
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-earth"></i> Cherry Tomatoes
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-earth"></i> Organic Cucumber
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-earth"></i> Broccoli
+                  </li>
+                </ul>
+              </div>
+              <div class="bg-neutral p-4 rounded-lg">
+                <h4 class="font-bold text-lg mb-2 text-dark">Natural Advantages</h4>
+                <ul class="text-gray-600 space-y-2">
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-earth"></i> Yellow River Alluvial Soil
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-earth"></i> Ample Sunshine
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-earth"></i> Standardized Planting
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <i class="fa fa-check text-earth"></i> Full Process Traceability
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="plant-process" class="section-padding bg-white">
+    <div class="container mx-auto px-4 md:px-8">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="section-title">Organic Cultivation Process</h2>
+        <p class="section-subtitle">From seed selection to harvest, every step adheres to nature and craftsmanship</p>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="relative">
+        <div class="process-line"></div>
+
+        <div class="flex flex-col md:flex-row items-center mb-16 relative fade-in">
+          <div class="md:w-1/2 md:pr-12 text-right order-2 md:order-1">
+            <div class="inline-block text-left">
+              <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 mx-auto md:mx-0 process-number">1</div>
+              <h3 class="text-xl font-bold mb-3 text-dark">Select Fine Seeds</h3>
+              <p class="text-gray-600 max-w-md leading-relaxed">
+                Selecting high-quality varieties suitable for local climate and soil conditions, prioritizing non-GMO, stress-tolerant traditional varieties. All seeds undergo strict screening and germination testing, ensuring a germination rate of over 95%.
+              </p>
+            </div>
+          </div>
+          <div class="md:w-1/2 md:pl-12 order-1 md:order-2 mb-8 md:mb-0">
+            <div class="rounded-xl overflow-hidden shadow-medium img-hover-zoom">
+              <img src="images/farm04.jpg" alt="Select Fine Seeds" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center mb-16 relative fade-in delay-100">
+          <div class="md:w-1/2 md:pr-12 mb-8 md:mb-0">
+            <div class="rounded-xl overflow-hidden shadow-medium img-hover-zoom">
+              <img src="images/farm05.jpg" alt="Soil Improvement" class="w-full h-full object-cover">
+            </div>
+          </div>
+          <div class="md:w-1/2 md:pl-12">
+            <div class="inline-block">
+              <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 mx-auto md:mx-0 process-number">2</div>
+              <h3 class="text-xl font-bold mb-3 text-dark">Soil Improvement</h3>
+              <p class="text-gray-600 max-w-md leading-relaxed">
+                Improving soil fertility and breathability by returning crop straw to the field, planting green manure, and applying organic fertilizer. Soil is tested before planting, and soil pH and nutrient content are adjusted according to the results to create the best conditions for crop growth.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center mb-16 relative fade-in delay-200">
+          <div class="md:w-1/2 md:pr-12 text-right order-2 md:order-1">
+            <div class="inline-block text-left">
+              <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 mx-auto md:mx-0 process-number">3</div>
+              <h3 class="text-xl font-bold mb-3 text-dark">Ecological Farming</h3>
+              <p class="text-gray-600 max-w-md leading-relaxed">
+                Adopting planting models such as rotation, intercropping, and relay cropping to build a diversified farmland ecosystem. Weeding is done manually, rejecting herbicides; physical pest control (insect nets, lure lamps) and biological control (natural enemies) are used, rejecting chemical pesticides.
+              </p>
+            </div>
+          </div>
+          <div class="md:w-1/2 md:pl-12 order-1 md:order-2 mb-8 md:mb-0">
+            <div class="rounded-xl overflow-hidden shadow-medium img-hover-zoom">
+              <img src="images/farm06.jpg" alt="Ecological Farming" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center mb-16 relative fade-in delay-300">
+          <div class="md:w-1/2 md:pr-12 mb-8 md:mb-0">
+            <div class="rounded-xl overflow-hidden shadow-medium img-hover-zoom">
+              <img src="images/farm07.jpg" alt="Manual Tending" class="w-full h-full object-cover">
+            </div>
+          </div>
+          <div class="md:w-1/2 md:pl-12">
+            <div class="inline-block">
+              <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 mx-auto md:mx-0 process-number">4</div>
+              <h3 class="text-xl font-bold mb-3 text-dark">Manual Tending</h3>
+              <p class="text-gray-600 max-w-md leading-relaxed">
+                Manual tending throughout the entire process, regularly inspecting crop growth and promptly removing diseased or weak plants. Using water-saving irrigation methods like drip and spray irrigation, precisely supplying water according to crop needs at different growth stages to avoid water waste.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center relative fade-in delay-400">
+          <div class="md:w-1/2 md:pr-12 text-right order-2 md:order-1">
+            <div class="inline-block text-left">
+              <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 mx-auto md:mx-0 process-number">5</div>
+              <h3 class="text-xl font-bold mb-3 text-dark">Natural Maturation</h3>
+              <p class="text-gray-600 max-w-md leading-relaxed">
+                Rejecting chemical agents like ripening agents and expanders, following the crop's natural growth cycle, and only harvesting when the fruit is fully ripe. After passing maturity tests, the optimal picking time is selected based on the crop's characteristics to ensure peak taste and nutrition.
+              </p>
+            </div>
+          </div>
+          <div class="md:w-1/2 md:pl-12 order-1 md:order-2 mb-8 md:mb-0">
+            <div class="rounded-xl overflow-hidden shadow-medium img-hover-zoom">
+              <img src="images/farm08.jpg" alt="Natural Maturation" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding bg-light">
+    <div class="container mx-auto px-4 md:px-8">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="section-title">Quality Certification & Assurance</h2>
+        <p class="section-subtitle">Authoritative certification, full traceability, allowing you to eat worry-free</p>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-xl p-8 shadow-medium feature-card">
+          <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center text-2xl mb-6 mx-auto">
+            <i class="fa fa-certificate"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-center text-dark">Organic Certification</h3>
+          <p class="text-gray-600 text-center leading-relaxed">
+            All planting bases have obtained national organic product certification, strictly adhering to organic agricultural production standards, without using chemical pesticides, fertilizers, hormones, or other synthetic substances throughout the process from planting to harvest.
+          </p>
+          <div class="mt-8 text-center">
+            <img src="images/farm09.jpg" alt="Organic Certification Mark" class="inline-block h-12 object-contain opacity-80">
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-8 shadow-medium feature-card">
+          <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center text-2xl mb-6 mx-auto">
+            <i class="fa fa-barcode"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-center text-dark">Full Traceability</h3>
+          <p class="text-gray-600 text-center leading-relaxed">
+            Establish a quality traceability system for agricultural products, where every batch has a unique traceability code. Consumers can scan the code to view the entire chain data, including planting base, planting process, testing report, and logistics information.
+          </p>
+          <div class="mt-8 text-center">
+            <img src="images/farm10.jpg" alt="Traceability System Mark" class="inline-block h-12 object-contain opacity-80">
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-8 shadow-medium feature-card">
+          <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center text-2xl mb-6 mx-auto">
+            <i class="fa fa-flask"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-center text-dark">Strict Testing</h3>
+          <p class="text-gray-600 text-center leading-relaxed">
+            Collaborate with authoritative testing institutions to conduct multiple tests on each batch of products for pesticide residues, heavy metals, and microorganisms. Only qualified products can enter the market, ensuring product quality and safety.
+          </p>
+          <div class="mt-8 text-center">
+            <img src="images/farm11.jpg" alt="Testing Qualified Mark" class="inline-block h-12 object-contain opacity-80">
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-16 bg-white rounded-xl p-8 shadow-medium fade-in delay-100">
+        <h3 class="text-xl font-bold mb-6 text-center text-dark">Recent Testing Reports (Example)</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="report-card rounded-lg p-4">
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-medium text-dark">Organic Rice Test</h4>
+              <span class="text-green-600 text-sm bg-green-100 px-2 py-1 rounded-full">Qualified</span>
+            </div>
+            <div class="rounded-lg overflow-hidden img-hover-zoom h-40">
+              <img src="images/farm09.jpg" alt="Organic Rice Testing Report" class="w-full h-full object-cover">
+            </div>
+            <a href="#" class="text-primary text-sm flex items-center justify-center hover:underline mt-4">
+              View Details <i class="fa fa-angle-right ml-1"></i>
+            </a>
+          </div>
+          <div class="report-card rounded-lg p-4">
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-medium text-dark">Alpine Blueberry Test</h4>
+              <span class="text-green-600 text-sm bg-green-100 px-2 py-1 rounded-full">Qualified</span>
+            </div>
+            <div class="rounded-lg overflow-hidden img-hover-zoom h-40">
+              <img src="images/farm10.jpg" alt="Alpine Blueberry Testing Report" class="w-full h-full object-cover">
+            </div>
+            <a href="#" class="text-primary text-sm flex items-center justify-center hover:underline mt-4">
+              View Details <i class="fa fa-angle-right ml-1"></i>
+            </a>
+          </div>
+          <div class="report-card rounded-lg p-4">
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-medium text-dark">Organic Vegetable Test</h4>
+              <span class="text-green-600 text-sm bg-green-100 px-2 py-1 rounded-full">Qualified</span>
+            </div>
+            <div class="rounded-lg overflow-hidden img-hover-zoom h-40">
+              <img src="images/farm11.jpg" alt="Organic Vegetable Testing Report" class="w-full h-full object-cover">
+            </div>
+            <a href="#" class="text-primary text-sm flex items-center justify-center hover:underline mt-4">
+              View Details <i class="fa fa-angle-right ml-1"></i>
+            </a>
+          </div>
+          <div class="report-card rounded-lg p-4">
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-medium text-dark">Walnut Quality Test</h4>
+              <span class="text-green-600 text-sm bg-green-100 px-2 py-1 rounded-full">Qualified</span>
+            </div>
+            <div class="rounded-lg overflow-hidden img-hover-zoom h-40">
+              <img src="images/farm12.png" alt="Walnut Quality Testing Report" class="w-full h-full object-cover">
+            </div>
+            <a href="#" class="text-primary text-sm flex items-center justify-center hover:underline mt-4">
+              View Details <i class="fa fa-angle-right ml-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding reservation-gradient">
+    <div class="container mx-auto px-4 md:px-8">
+      <div class="bg-white rounded-2xl overflow-hidden shadow-medium">
+        <div class="flex flex-col md:flex-row">
+          <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center fade-in">
+            <h2 class="section-title">
+              Book a Visit to the Planting Base
+            </h2>
+            <p class="text-gray-600 mb-8 text-lg leading-relaxed">
+              We welcome you to visit the planting base in person, conduct on-site inspections of the organic cultivation process, experience the joy of farming, and feel the beauty of nature.
+            </p>
+            <form class="space-y-6">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label for="name" class="block text-gray-700 mb-2 text-sm font-medium">Name</label>
+                  <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent form-input" placeholder="Enter your name">
+                </div>
+                <div>
+                  <label for="phone" class="block text-gray-700 mb-2 text-sm font-medium">Contact Phone</label>
+                  <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent form-input" placeholder="Enter your phone number">
+                </div>
+              </div>
+              <div>
+                <label for="base" class="block text-gray-700 mb-2 text-sm font-medium">Intended Base</label>
+                <select id="base" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent form-input">
+                  <option value="">Please select the base to visit</option>
+                  <option value="northeast">Northeast Black Soil Planting Base</option>
+                  <option value="yunnan">Yunnan Alpine Ecological Farm</option>
+                  <option value="shandong">Shandong Organic Vegetable Base</option>
+                </select>
+              </div>
+              <div>
+                <label for="date" class="block text-gray-700 mb-2 text-sm font-medium">Reservation Date</label>
+                <input type="date" id="date" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent form-input">
+              </div>
+              <div>
+                <label for="message" class="block text-gray-700 mb-2 text-sm font-medium">Message (Optional)</label>
+                <textarea id="message" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent form-input" placeholder="Enter your needs or questions"></textarea>
+              </div>
+              <button type="submit" class="btn-primary w-full">Submit Reservation</button>
+            </form>
+          </div>
+          <div class="md:w-1/2 relative hidden md:block img-hover-zoom">
+            <img src="images/farm13.jpg" alt="Base Visit" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-white to-transparent"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-dark text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center gap-2 mb-6 md:mb-0">
+          <i class="fa fa-leaf text-primary text-2xl"></i>
+          <span class="text-xl font-bold">Jianxian Ag Products</span>
+        </div>
+        <div class="text-center md:text-right footer-text">
+          <p class="text-lg mb-2">Rural Revitalization · High-Quality Agricultural Product Direct Supply Platform</p>
+          <p class="text-sm opacity-80">© 2025 Jianxian Ag Products. All Rights Reserved. Organic Certification No.: ORG-2025-008</p>
+          <div class="flex justify-center md:justify-end gap-4 mt-4">
+            <a href="#" class="text-white hover:text-primary transition-colors">
+              <i class="fa fa-weixin text-xl"></i>
+            </a>
+            <a href="#" class="text-white hover:text-primary transition-colors">
+              <i class="fa fa-weibo text-xl"></i>
+            </a>
+            <a href="#" class="text-white hover:text-primary transition-colors">
+              <i class="fa fa-youtube-play text-xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" class="fixed bottom-6 right-6 bg-primary text-white w-12 h-12 rounded-full shadow-md flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-primary/90 hover:scale-110 active:scale-95 z-40">
+    <i class="fa fa-angle-up text-xl"></i>
+  </button>
+
+  <script>
+    // 1. Mobile Menu Toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const icon = menuBtn.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+
+    // 2. Carousel Functionality
+    const carouselTrack = document.querySelector('.carousel-track');
+    const carouselSlides = document.querySelectorAll('.carousel-slide');
+    const carouselPrev = document.querySelector('.carousel-prev');
+    const carouselNext = document.querySelector('.carousel-next');
+    const carouselDots = document.querySelectorAll('.carousel-dot');
+    let currentSlide = 0;
+    const slideCount = carouselSlides.length;
+
+    // Switch Slide
+    function goToSlide(index) {
+      if (index < 0) index = slideCount - 1;
+      if (index >= slideCount) index = 0;
+      currentSlide = index;
+      carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+      
+      // Update Indicators
+      carouselDots.forEach((dot, i) => {
+        if (i === currentSlide) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    // Previous/Next Slide
+    carouselPrev.addEventListener('click', () => goToSlide(currentSlide - 1));
+    carouselNext.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+    // Indicator Click
+    carouselDots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        clearInterval(carouselInterval);
+        goToSlide(i);
+        carouselInterval = setInterval(() => goToSlide(currentSlide + 1), 5000);
+      });
+    });
+
+    // Auto Carousel
+    let carouselInterval = setInterval(() => goToSlide(currentSlide + 1), 5000);
+
+    // Pause on Hover
+    document.querySelector('.hero-carousel').addEventListener('mouseenter', () => {
+      clearInterval(carouselInterval);
+    });
+
+    // Resume on Leave
+    document.querySelector('.hero-carousel').addEventListener('mouseleave', () => {
+      carouselInterval = setInterval(() => goToSlide(currentSlide + 1), 5000);
+    });
+
+    // 3. Smooth Scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+          
+          // Close mobile menu
+          if (!mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('hidden');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+        }
+      });
+    });
+
+    // 4. Back to Top
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTop.classList.remove('opacity-0', 'invisible');
+        backToTop.classList.add('opacity-100', 'visible');
+      } else {
+        backToTop.classList.add('opacity-0', 'invisible');
+        backToTop.classList.remove('opacity-100', 'visible');
+      }
+      
+      // Navbar scroll effect
+      const header = document.querySelector('.header-scroll');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 5. Image Lazy Loading (Simulation)
+    document.addEventListener('DOMContentLoaded', () => {
+      const lazyImages = document.querySelectorAll('img');
+      lazyImages.forEach(img => {
+        img.classList.add('img-loading');
+        img.onload = function() {
+          img.classList.remove('img-loading');
+        }
+      });
+    });
+
+    // 6. Form Submission
+    const reservationForm = document.querySelector('form');
+    reservationForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Reservation request submitted successfully! We will contact you shortly to confirm.');
+      reservationForm.reset();
+    });
+
+    // 7. Element Fade-In Animation
+    const fadeElements = document.querySelectorAll('.fade-in');
+    const fadeInObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+          fadeInObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    fadeElements.forEach(element => {
+      element.style.opacity = 0;
+      element.style.transform = 'translateY(20px)';
+      element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+      fadeInObserver.observe(element);
+    });
+  </script>
+</body>
+</html>
